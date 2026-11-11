@@ -1,0 +1,388 @@
+/* Predict, then reveal: the options, the verdicts and the running score. (Page layout is in deck.css.) */
+.run-score {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+.step-title.ask {
+  font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+}
+.hint {
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  margin: 0 0 16px;
+}
+.opts {
+  display: grid;
+  gap: 8px;
+}
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  transition: border-color 0.2s, transform 0.2s, background 0.3s;
+}
+.opt:hover:not(:disabled) {
+  border-color: var(--k);
+  transform: translateX(4px);
+}
+.opt .kind-tag {
+  flex: none;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--k);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.opt-text b {
+  display: block;
+}
+.opt-text small {
+  color: var(--ink-2);
+}
+.opt.right {
+  border-color: var(--k-open);
+  background: color-mix(in srgb, var(--k-open) 22%, var(--surface-2));
+}
+.opt.wrong {
+  opacity: 0.55;
+  border-style: dashed;
+  animation: shake 0.35s;
+}
+.opt:disabled {
+  cursor: default;
+}
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+.feedback .fb {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--rule);
+  font-size: 0.92rem;
+  animation: card-in 0.35s ease-out;
+}
+.feedback .fb p {
+  margin: 6px 0;
+}
+.verdict {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  background: var(--surface-2);
+}
+.verdict.good {
+  background: color-mix(in srgb, var(--k-open) 25%, var(--surface-2));
+}
+@media (prefers-reduced-motion: reduce) {
+  .opt.wrong,
+  .feedback .fb {
+    animation: none;
+  }
+}
+
+/* number keys on the options */
+.key {
+  flex: none;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  color: var(--ink-2);
+}
+.nav .keys {
+  flex: 1;
+  text-align: center;
+}
+.opt.tapped {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-2));
+}
+.opt.tapped .key {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.opt.box b {
+  color: var(--rc, var(--p-north));
+}
+.opt.lever.focus {
+  outline: 2px solid var(--k-open);
+  outline-offset: 2px;
+}
+.opt .closes {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink);
+}
+.opt .closes b {
+  display: inline;
+}
+.opts.mag {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.opts.mag b {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+/* guess-a-number */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 18px 0;
+}
+.slider-row input {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 28px;
+}
+.slider-row output {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  min-width: 80px;
+  text-align: right;
+}
+.bars {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+.gbar {
+  display: grid;
+  grid-template-columns: 120px 1fr 52px;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+.gbar-track {
+  height: 14px;
+  border-radius: 7px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.gbar-track i {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  border-radius: 7px;
+  background: var(--ink-2);
+  animation: grow 1s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+.gbar.real .gbar-track i {
+  background: var(--p-south);
+}
+.gbar.real.labor .gbar-track i {
+  background: color-mix(in srgb, var(--p-south) 45%, var(--surface-2));
+}
+.gbar b {
+  text-align: right;
+}
+@keyframes grow {
+  from {
+    width: 0;
+  }
+}
+
+/* the scorecard */
+.scorecard {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  display: grid;
+  gap: 6px;
+}
+.scorecard li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.scorecard .mark {
+  font-weight: 700;
+  width: 18px;
+  color: var(--ink-2);
+}
+.scorecard li.ok .mark {
+  color: var(--k-open);
+}
+.scorecard small {
+  display: block;
+  color: var(--ink-2);
+}
+@media (max-width: 600px) {
+  .nav .keys {
+    display: none;
+  }
+  .gbar {
+    grid-template-columns: 90px 1fr 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gbar-track i {
+    animation: none;
+  }
+}
+
+/* the order game: rows to drag (or move with the arrows), then slide into the right order */
+.reorder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ro-row {
+  position: relative;
+  user-select: none;
+  cursor: grab;
+}
+.reorder .ro-row:hover {
+  transform: none;
+  border-color: var(--accent);
+}
+.reorder.checked .ro-row {
+  cursor: default;
+}
+.reorder.checked .ro-row:not(.right):hover {
+  border-color: var(--rule);
+}
+.ro-row.dragging {
+  cursor: grabbing;
+  z-index: 2;
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+.ro-grip {
+  flex: none;
+  color: var(--ink-2);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 6px 2px;
+  touch-action: none;
+  cursor: grab;
+}
+.ro-row .opt-text {
+  flex: 1;
+  min-width: 0;
+}
+.ro-btns {
+  display: flex;
+  gap: 4px;
+  flex: none;
+}
+.ro-move {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.ro-move:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.ro-move:disabled {
+  opacity: 0.3;
+}
+.ro-row.wrong {
+  animation: none;
+  opacity: 0.85;
+}
+.ro-row.judged.wrong {
+  animation: shake 0.35s;
+}
+.ro-mark {
+  flex: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.ro-row.right .ro-mark {
+  color: var(--k-open);
+}
+.ro-row.wrong .ro-mark {
+  color: var(--ink-2);
+}
+.ro-had {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* the switch challenge, once checked: four clearly different outcomes */
+.levers.checked .opt {
+  border-width: 2px;
+}
+.out-tag {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 3px;
+}
+.opt.out-hit {
+  border-color: var(--k-labor);
+  background: color-mix(in srgb, var(--k-labor) 18%, var(--surface-2));
+}
+.out-hit .out-tag {
+  color: var(--k-labor);
+}
+.opt.out-missed {
+  border-color: var(--k-money);
+  border-style: dashed;
+  background: color-mix(in srgb, var(--k-money) 10%, var(--surface-2));
+}
+.out-missed .out-tag {
+  color: color-mix(in srgb, var(--k-money) 55%, var(--ink)); /* yellow alone is too faint on paper */
+}
+.opt.out-false {
+  border-color: var(--k-force);
+  background: color-mix(in srgb, var(--k-force) 14%, var(--surface-2));
+}
+.out-false .out-tag {
+  color: var(--k-force);
+}
+.opt.out-none {
+  opacity: 0.5;
+}
+.opt.out-none .out-tag {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.switch-summary {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  font-size: 0.95rem;
+}
+/* back and forth */
+#back {
+  flex: none;
+}

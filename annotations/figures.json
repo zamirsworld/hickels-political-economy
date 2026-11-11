@@ -1,0 +1,695 @@
+[
+  {
+    "id": "F1",
+    "label": "Embodied resources and labor net-appropriated by the North from the South, 2015",
+    "values": [
+      {
+        "value": "12",
+        "unit": "billion tonnes",
+        "note": "embodied raw material equivalents"
+      },
+      {
+        "value": "822",
+        "unit": "million hectares",
+        "note": "embodied land"
+      },
+      {
+        "value": "21",
+        "unit": "exajoules",
+        "note": "embodied energy"
+      },
+      {
+        "value": "188",
+        "unit": "million person-years",
+        "note": "embodied labor"
+      }
+    ],
+    "year": "2015",
+    "lenses": [
+      "L4",
+      "L5"
+    ],
+    "attachTo": [
+      "drain_labor",
+      "drain_nature",
+      "south_workers",
+      "south_nature"
+    ],
+    "citation": "Hickel, J., Dorninger, C., Wieland, H. & Suwandi, I. (2022). Imperialist appropriation in the world economy: Drain from the global South through unequal exchange, 1990–2015. Global Environmental Change 73, 102467.",
+    "doi": "10.1016/j.gloenvcha.2022.102467",
+    "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
+    "caveat": "Model-based estimate from environmentally extended input-output analysis. 'Net' means flows South→North minus North→South.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F2",
+    "label": "Value of the 2015 drain, in Northern prices",
+    "values": [
+      {
+        "value": "10.8",
+        "unit": "trillion USD",
+        "note": "valued at Northern prices"
+      }
+    ],
+    "year": "2015",
+    "lenses": [
+      "L4"
+    ],
+    "attachTo": [
+      "drain_labor",
+      "drain_nature"
+    ],
+    "citation": "Hickel, J., Dorninger, C., Wieland, H. & Suwandi, I. (2022). Global Environmental Change 73, 102467.",
+    "doi": "10.1016/j.gloenvcha.2022.102467",
+    "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
+    "caveat": "A counterfactual valuation: what the appropriated resources and labor would cost at Northern prices, not money that changed hands.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F3",
+    "label": "Cumulative drain 1990–2015, compared with aid",
+    "values": [
+      {
+        "value": "242",
+        "unit": "trillion USD",
+        "note": "constant 2010 USD, Northern prices, 1990–2015"
+      },
+      {
+        "value": "30×",
+        "unit": "aid received",
+        "note": "the South's losses compared with its aid receipts over the period"
+      }
+    ],
+    "year": "1990–2015",
+    "lenses": [
+      "L4"
+    ],
+    "attachTo": [
+      "drain_labor",
+      "drain_nature"
+    ],
+    "citation": "Hickel, J., Dorninger, C., Wieland, H. & Suwandi, I. (2022). Global Environmental Change 73, 102467.",
+    "doi": "10.1016/j.gloenvcha.2022.102467",
+    "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
+    "caveat": "Counterfactual valuation at Northern prices. Not comparable with F4, which uses a different method, base year and period.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F4",
+    "label": "Drain through unequal exchange, 1960–2018",
+    "values": [
+      {
+        "value": "62",
+        "unit": "trillion USD",
+        "note": "constant 2011 USD, cumulative 1960–2018"
+      },
+      {
+        "value": "152",
+        "unit": "trillion USD",
+        "note": "including lost growth"
+      },
+      {
+        "value": "2.2",
+        "unit": "trillion USD",
+        "note": "in 2018 alone, Northern prices"
+      }
+    ],
+    "year": "1960–2018",
+    "lenses": [
+      "L4"
+    ],
+    "attachTo": [
+      "drain_labor"
+    ],
+    "citation": "Hickel, J., Sullivan, D. & Zoomkawala, H. (2021). Plunder in the post-colonial era: Quantifying drain from the global South through unequal exchange, 1960–2018. New Political Economy 26(6), 1030–1047.",
+    "doi": "10.1080/13563467.2021.1899153",
+    "url": "https://doi.org/10.1080/13563467.2021.1899153",
+    "caveat": "Exchange-rate-differential method (after Köhler). The 'lost growth' figure depends on an assumed growth rate. Not comparable with F3.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F5",
+    "label": "Drain over time",
+    "values": [
+      {
+        "value": "~38",
+        "unit": "billion USD / year",
+        "note": "1960s, just over 1% of Southern output"
+      },
+      {
+        "value": "~3",
+        "unit": "trillion USD / year",
+        "note": "by 2005, about 9% of Southern output"
+      }
+    ],
+    "year": "1960s–2005",
+    "lenses": [
+      "L4"
+    ],
+    "attachTo": [
+      "drain_labor"
+    ],
+    "citation": "Hickel, J., Sullivan, D. & Zoomkawala, H. (2021), as summarized by the authors in: 'Rich countries drained $152tn from the global South since 1960', Al Jazeera, 6 May 2021.",
+    "doi": "10.1080/13563467.2021.1899153",
+    "url": "https://www.aljazeera.com/opinions/2021/5/6/rich-countries-drained-152tn-from-the-global-south-since-1960",
+    "caveat": "Trend figures taken from the authors' op-ed. Check them against the paper's time series before publishing.",
+    "verification": "secondary",
+    "author": "hickel"
+  },
+  {
+    "id": "F6",
+    "label": "Labor net-appropriated by the North through unequal exchange, 2021",
+    "values": [
+      {
+        "value": "826",
+        "unit": "billion hours",
+        "note": "embodied labor, all skill levels"
+      },
+      {
+        "value": "16.9",
+        "unit": "trillion EUR",
+        "note": "valued at Northern wages, adjusted for skill"
+      },
+      {
+        "value": "90% / 21%",
+        "unit": "labor / income",
+        "note": "the South's share of the world economy's labor vs its share of global income"
+      },
+      {
+        "value": "87–95%",
+        "unit": "lower wages",
+        "note": "Southern vs Northern wages for work of equal skill"
+      }
+    ],
+    "year": "2021",
+    "lenses": [
+      "L4",
+      "L3"
+    ],
+    "attachTo": [
+      "drain_labor",
+      "south_workers"
+    ],
+    "citation": "Hickel, J., Hanbury Lemos, M. & Barbour, F. (2024). Unequal exchange of labour in the world economy. Nature Communications 15, 6298.",
+    "doi": "10.1038/s41467-024-49687-y",
+    "url": "https://doi.org/10.1038/s41467-024-49687-y",
+    "caveat": "The euro value is a counterfactual: what the labor would cost at Northern wages with equal pay for equal work.",
+    "verification": "full-text",
+    "location": "Results: 'Unequal exchange of labour' (826 bn h); 'The wage value of appropriation through unequal exchange' (€16.9 tn); 'Wage trends' (87–95%); 'Contributions to global production' (90% / 21%)",
+    "author": "hickel"
+  },
+  {
+    "id": "F7",
+    "label": "Responsibility for excess CO₂ emissions beyond fair shares of a 350 ppm boundary, as of 2015",
+    "values": [
+      {
+        "value": "92%",
+        "unit": "Global North"
+      },
+      {
+        "value": "40%",
+        "unit": "USA"
+      },
+      {
+        "value": "29%",
+        "unit": "EU-28"
+      }
+    ],
+    "year": "1850–2015",
+    "lenses": [
+      "L5"
+    ],
+    "attachTo": [
+      "ecosystem",
+      "emissions_fossil"
+    ],
+    "citation": "Hickel, J. (2020). Quantifying national responsibility for climate breakdown: an equality-based attribution approach for carbon dioxide emissions in excess of the planetary boundary. The Lancet Planetary Health 4(9), e399–e404.",
+    "doi": "10.1016/S2542-5196(20)30196-0",
+    "url": "https://doi.org/10.1016/S2542-5196(20)30196-0",
+    "caveat": "A share of excess emissions above equal per-capita fair shares (a normative benchmark), not of total emissions. Territorial emissions 1850–1969, consumption-based 1970–2015.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F8",
+    "label": "Responsibility for excess material use beyond fair shares, 1970–2017",
+    "values": [
+      {
+        "value": "74%",
+        "unit": "high-income nations"
+      },
+      {
+        "value": "27%",
+        "unit": "USA"
+      },
+      {
+        "value": "25%",
+        "unit": "EU-28 high-income"
+      },
+      {
+        "value": "15%",
+        "unit": "China"
+      },
+      {
+        "value": "8%",
+        "unit": "rest of the Global South"
+      }
+    ],
+    "year": "1970–2017",
+    "lenses": [
+      "L5"
+    ],
+    "attachTo": [
+      "ecosystem",
+      "extraction",
+      "pollution_luxury"
+    ],
+    "citation": "Hickel, J., O'Neill, D. W., Fanning, A. L. & Zoomkawala, H. (2022). National responsibility for ecological breakdown: a fair-shares assessment of resource use, 1970–2017. The Lancet Planetary Health 6(4), e342–e349.",
+    "doi": "10.1016/S2542-5196(22)00044-4",
+    "url": "https://doi.org/10.1016/S2542-5196(22)00044-4",
+    "caveat": "A share of excess use above fair shares of a sustainable corridor (a normative benchmark), not of total use. National averages hide inequality within countries.",
+    "verification": "abstract",
+    "author": "hickel"
+  },
+  {
+    "id": "F9",
+    "label": "Typical equity returns: renewables vs oil & gas",
+    "values": [
+      {
+        "value": "5–8%",
+        "unit": "renewables"
+      },
+      {
+        "value": ">15%",
+        "unit": "oil & gas"
+      }
+    ],
+    "year": "2020s",
+    "lenses": [
+      "L2"
+    ],
+    "attachTo": [
+      "fossil",
+      "renewables",
+      "inv_fossil",
+      "inv_renewables"
+    ],
+    "citation": "Christophers, B. (2024). The Price is Wrong: Why Capitalism Won't Save the Planet. Verso. (Figures as reported in reviews, e.g. Financial Times.)",
+    "url": "https://www.versobooks.com/products/3069-the-price-is-wrong",
+    "caveat": "Not a Hickel source. Shown next to Hickel's interview claim that fossil fuels are '3–4× more profitable'. Figures come from reviews of the book; check them against the book itself.",
+    "verification": "secondary",
+    "author": "other"
+  },
+  {
+    "id": "F10",
+    "label": "Who bears climate impacts",
+    "values": [
+      {
+        "value": "3.3–3.6",
+        "unit": "billion people",
+        "note": "live in contexts highly vulnerable to climate change"
+      },
+      {
+        "value": "disproportionately",
+        "unit": "affected",
+        "note": "vulnerable communities that historically contributed least to climate change"
+      }
+    ],
+    "year": "2023",
+    "lenses": [
+      "L4",
+      "L5"
+    ],
+    "attachTo": [
+      "ecosystem",
+      "degradation_south"
+    ],
+    "citation": "IPCC (2023). Summary for Policymakers. In: Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. IPCC, Geneva.",
+    "url": "https://www.ipcc.ch/report/ar6/syr/",
+    "caveat": "Not a Hickel source. Added to support the link 'damage lands on the South', which the interview implies but doesn't state. The IPCC names Africa, Asia, Central and South America, least developed countries and small island states among the most affected regions.",
+    "verification": "secondary",
+    "location": "SPM section A (statement A.2), to be confirmed against the official PDF",
+    "author": "other"
+  },
+  {
+    "id": "F11",
+    "label": "Renewables are now the cheapest new power",
+    "values": [
+      {
+        "value": "81%",
+        "unit": "of new utility-scale renewable capacity",
+        "note": "382 of 473 GW added in 2023 cost less than fossil-fuel alternatives"
+      },
+      {
+        "value": "~4 ¢/kWh",
+        "unit": "solar PV, global average 2023",
+        "note": "about 56% below fossil-fuel and nuclear options"
+      }
+    ],
+    "year": "2023",
+    "lenses": [
+      "L2"
+    ],
+    "attachTo": [
+      "renewables",
+      "fossil"
+    ],
+    "citation": "IRENA (2024). Renewable Power Generation Costs in 2023. International Renewable Energy Agency, Abu Dhabi.",
+    "url": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Sep/IRENA_Renewable_power_generation_costs_in_2023.pdf",
+    "caveat": "Not a Hickel source. Added to support the 'cheaper' claim with a number. Levelized costs exclude grid integration and storage; figures are global averages and vary by country.",
+    "verification": "secondary",
+    "location": "Key findings (IRENA press release, Sept 2024); IRENA's site blocks automated access, so check against the PDF",
+    "author": "other"
+  },
+  {
+    "id": "F12",
+    "label": "E-waste shipped from richer to poorer countries",
+    "values": [
+      {
+        "value": "65%",
+        "unit": "of cross-border e-waste movements",
+        "note": "uncontrolled and undocumented shipments from high-income to low- and middle-income countries, 2019"
+      },
+      {
+        "value": "22.3%",
+        "unit": "of the 62 billion kg of e-waste generated in 2022",
+        "note": "documented as formally collected and recycled"
+      }
+    ],
+    "year": "2019 / 2022",
+    "lenses": [
+      "L5",
+      "L4"
+    ],
+    "attachTo": [
+      "waste",
+      "ewaste_south"
+    ],
+    "citation": "ITU and UNITAR (2024). The Global E-waste Monitor 2024: Highlights. International Telecommunication Union.",
+    "url": "https://www.itu.int/en/ITU-D/Environment/Documents/Publications/2024/GEM2024%20Highlights.pdf",
+    "caveat": "Not a Hickel source. 'Uncontrolled' does not necessarily mean illegal. Main exporters are Europe, East Asia and North America; main recipients are Africa, South-east Asia and Central and South America.",
+    "verification": "secondary",
+    "location": "Highlights: key takeaways and key statistics",
+    "author": "other"
+  },
+  {
+    "id": "F13",
+    "label": "Who bears the health risks of e-waste",
+    "values": [
+      {
+        "value": "LMICs",
+        "unit": "people in low- and middle-income countries",
+        "note": "particularly children, face the most significant risks"
+      },
+      {
+        "value": "16.5 million",
+        "unit": "children working in the industrial sector (2020, ILO)",
+        "note": "a sector that includes waste processing; how many work in informal e-waste recycling is unknown"
+      }
+    ],
+    "year": "2024",
+    "lenses": [
+      "L5",
+      "L4"
+    ],
+    "attachTo": [
+      "ewaste_south"
+    ],
+    "citation": "World Health Organization (2024). Electronic waste (e-waste). Fact sheet, 1 October 2024.",
+    "url": "https://www.who.int/news-room/fact-sheets/detail/electronic-waste-(e-waste)",
+    "caveat": "Not a Hickel source. Informal recycling pollutes the air, soil, dust and water at recycling sites and in neighbouring communities; harms include stillbirth and premature birth, effects on children's neurodevelopment, and reduced lung function.",
+    "verification": "full-text",
+    "author": "other"
+  },
+  {
+    "id": "F14",
+    "label": "US policy and the preferences of elites and average citizens, 1981–2002",
+    "values": [
+      {
+        "value": "1,779",
+        "unit": "policy issues",
+        "note": "national survey questions on proposed policy changes, 1981–2002"
+      },
+      {
+        "value": "~30%",
+        "unit": "of the time",
+        "note": "narrow pro-change majorities got the change they wanted"
+      },
+      {
+        "value": "~43%",
+        "unit": "of the time",
+        "note": "majorities got the change they wanted even with 80% of the public in favor"
+      }
+    ],
+    "year": "1981–2002",
+    "lenses": [
+      "L1"
+    ],
+    "attachTo": [
+      "capture"
+    ],
+    "citation": "Gilens, M. & Page, B. I. (2014). Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens. Perspectives on Politics 12(3), 564–581. Cambridge University Press, for the American Political Science Association.",
+    "doi": "10.1017/S1537592714001595",
+    "url": "https://doi.org/10.1017/S1537592714001595",
+    "caveat": "Not a Hickel source; he cites it at TEA 12:13. The authors find that economic elites and business groups have substantial independent influence and average citizens little or none. Majorities who disagree with elites or organized interests 'generally lose', but citizens often get what they want when they agree with elites, and majorities opposing a change usually get their way. The authors conclude for 'economic-elite domination' and 'biased pluralism'; 'oligarchy' appears only in their summary of another scholar's theory. Elites are proxied by the 90th income percentile. Disputed: Bashir (2015, Research & Politics) argues the test understates average citizens' influence and that they won about as often as elites when the two disagreed; Branham, Soroka & Wlezien (2017, Political Science Quarterly) also challenge it. Gilens and Page rejected these critiques in a 2016 reply.",
+    "verification": "full-text",
+    "location": "Cambridge Core full text: abstract; 'Majoritarian Electoral Democracy' (30%, 43%); 'American Democracy?' ('generally lose'). Critiques: Bashir's abstract and introduction read; Branham et al. checked via Crossref and a secondary summary only; the 2016 reply seen only in the opening of a reprint.",
+    "author": "other"
+  },
+  {
+    "id": "F15",
+    "label": "How people in the US, UK and France rate their own democracy, 2023",
+    "values": [
+      {
+        "value": "54%",
+        "unit": "USA",
+        "note": "say their country is democratic"
+      },
+      {
+        "value": "56%",
+        "unit": "UK",
+        "note": "same measure"
+      },
+      {
+        "value": "49%",
+        "unit": "France",
+        "note": "same measure"
+      },
+      {
+        "value": "58%",
+        "unit": "USA",
+        "note": "say the government usually acts for a small group of people"
+      },
+      {
+        "value": "~42%",
+        "unit": "USA",
+        "note": "say it usually acts for most people; the rest of the same 100% bar, which carries no printed number"
+      }
+    ],
+    "year": "2023",
+    "lenses": [
+      "L1"
+    ],
+    "attachTo": [
+      "capture"
+    ],
+    "citation": "Latana & Alliance of Democracies (2023). Democracy Perception Index 2023. Survey of 53,970 online-connected respondents in 53 countries, 7 February to 27 March 2023.",
+    "url": "https://6389062.fs1.hubspotusercontent-na1.net/hubfs/6389062/Canva%20images/Democracy%20Perception%20Index%202023.pdf",
+    "caveat": "Not a Hickel source; he cites the index at TEA 13:10. An online poll of about 1,000 people per country, weighted by age, gender and education; average margin of error ±3.1 points. The democracy question is a 0–10 slider ('How democratic do you think it is?'). The report prints no cut-off for 'democratic'; Just Security describes it as a rating of 7 or higher. 'Real democracy' is Hickel's phrase, and the report's is 'actually democratic'. His own 2023 US figure on the government serving the majority loses a word in the auto-captions ('less than a …'), so it can only be compared with the ~42% here if that word was 'half'.",
+    "verification": "full-text",
+    "location": "Report pp. 9–10 (question, plotted values), p. 12 (58%, chart), p. 60 (method), p. 63 (questionnaire). The 54%, 56% and 49% are plotted dots with no printed labels: read from the chart, consistent with the printed deficits and with Just Security (30 June 2023). Only these pages were checked.",
+    "author": "other"
+  },
+  {
+    "id": "F16",
+    "label": "People in China who call their country democratic, 2022–2024",
+    "values": [
+      {
+        "value": "83%",
+        "unit": "in 2022",
+        "note": "USA in the same survey: 49%"
+      },
+      {
+        "value": "73%",
+        "unit": "in 2023",
+        "note": "USA: 54%; read from the report's chart"
+      },
+      {
+        "value": "79%",
+        "unit": "in 2024",
+        "note": "as quoted in Hickel's Substack from the 2024 report"
+      },
+      {
+        "value": "10%",
+        "unit": "in 2023",
+        "note": "say the government acts for a small group of people; USA: 58%"
+      }
+    ],
+    "year": "2022–2024",
+    "lenses": [
+      "L1"
+    ],
+    "attachTo": [
+      "south_south"
+    ],
+    "citation": "Latana & Alliance of Democracies. Democracy Perception Index, 2022, 2023 and 2024 editions. The 2023 figures are from the report; 2022 as reported by Newsweek; 2024 as quoted in Hickel's Substack, 'Studies show strong public support for China's political system'.",
+    "url": "https://allianceofdemocracies.org/democracy-perception-index",
+    "caveat": "Not a Hickel source; he cites it at TEA 23:01. The 2023 report samples online-connected respondents and warns that where governments shape opinion or restrict speech, this 'can have a strong influence on the survey results', while adding that anonymity may reduce self-censorship. As reported by Newsweek, the 2022 edition also cautions that in authoritarian countries positive answers may reflect different ideas of democracy, approval of the government, or fear of criticizing it, and a Latana consultant said China's figure may partly reflect reluctance to speak out as well as a genuine sense of being served. Hickel says later studies found the answers accurate (TEA 23:52); those studies are not checked here.",
+    "verification": "secondary",
+    "location": "2023: report pp. 10, 12, 60 (https://6389062.fs1.hubspotusercontent-na1.net/hubfs/6389062/Canva%20images/Democracy%20Perception%20Index%202023.pdf); the 73% is a plotted dot, the 10% is printed on p. 12. 2022: Newsweek (figures, caution). 2024: Hickel's Substack, passing on the report. The 2022 and 2024 reports were not read.",
+    "author": "other"
+  },
+  {
+    "id": "F17",
+    "label": "Support for the degrowth proposal in the UK and USA, 2023 surveys",
+    "values": [
+      {
+        "value": "81–82%",
+        "unit": "UK",
+        "note": "support the full proposal without a label (two studies)"
+      },
+      {
+        "value": "72–73%",
+        "unit": "USA",
+        "note": "support the full proposal without a label (two studies)"
+      },
+      {
+        "value": "20–26%",
+        "unit": "UK",
+        "note": "support the label 'degrowth' on its own"
+      },
+      {
+        "value": "13–28%",
+        "unit": "USA",
+        "note": "support the label 'degrowth' on its own"
+      }
+    ],
+    "year": "2023",
+    "lenses": [
+      "L3",
+      "L5"
+    ],
+    "attachTo": [
+      "scale_down"
+    ],
+    "citation": "Krpan, D., Basso, F., Hickel, J. & Kallis, G. (2025). Assessing public support for degrowth: survey-based experimental and predictive studies. The Lancet Planetary Health 9(11), 101326.",
+    "doi": "10.1016/j.lanplh.2025.101326",
+    "url": "https://doi.org/10.1016/j.lanplh.2025.101326",
+    "caveat": "Hickel is one of four authors; Dario Krpan leads. Online surveys through Prolific, matched to each population on age, gender and ethnicity, with 5,454 people analysed. Support is for the proposal presented as a whole. Average ratings were about 5 on a 7-point scale, in the 'somewhat support' range, so the majorities are large but not intense. With the proposal explained alongside the 'degrowth' label, support was 74% (UK) and 68% (USA).",
+    "verification": "abstract",
+    "location": "Abstract via Europe PMC and the LSE repository record; citation via Crossref. The publisher's pages block automated access and the full-text PDF is too large to fetch, so what the proposal contained is unchecked.",
+    "author": "hickel"
+  },
+  {
+    "id": "F18",
+    "label": "Zucman's proposal: a 2% minimum tax on the ultra-rich",
+    "values": [
+      {
+        "value": "2%",
+        "unit": "of wealth per year",
+        "note": "a minimum: whoever already pays that much in taxes owes nothing more"
+      },
+      {
+        "value": ">$100 million",
+        "unit": "in wealth",
+        "note": "who it applies to"
+      },
+      {
+        "value": ">$400 billion",
+        "unit": "per year",
+        "note": "Zucman's estimate of global revenue, about 0.4% of world GDP"
+      }
+    ],
+    "year": "2026",
+    "lenses": [
+      "L1",
+      "L3"
+    ],
+    "attachTo": [
+      "tax_rich"
+    ],
+    "citation": "Zucman, G. (2026). We Need to Tax Billionaires. Basic Books UK (Hachette). English edition of Les milliardaires ne paient pas d'impôt sur le revenu (Le Seuil).",
+    "url": "https://www.hachette.co.uk/titles/gabriel-zucman/we-need-to-tax-billionaires/9781399839600/",
+    "caveat": "Not a Hickel source. Hickel gives no title (TEA 57:48, 58:59), so matching his 'new little book' to this one is our identification. A 2% minimum wealth tax is a different and far lower measure than the 100% maximum income Hickel argues for on this arrow. A reviewer notes the book argues mainly from France.",
+    "verification": "secondary",
+    "location": "The book itself was not read. Numbers from a UC Berkeley Letters & Science interview with Zucman (18 June 2026); details from Hachette's page, an excerpt in Zeteo (25 August 2026) and a review (The Earthbound Report, 7 July 2026).",
+    "author": "other"
+  },
+  {
+    "id": "F19",
+    "label": "A cap on top incomes: the closest match to the book Hickel names",
+    "values": [
+      {
+        "value": "a cap",
+        "unit": "on personal income",
+        "note": "called a 'maximum wage' to build on the familiar minimum wage, though it covers more than wages"
+      },
+      {
+        "value": "100%",
+        "unit": "tax above a set point",
+        "note": "how most past proposals worked (e.g. Felix Adler, Franklin Roosevelt); not shown here as the author's own rate"
+      },
+      {
+        "value": "ratios",
+        "unit": "between top and other incomes",
+        "note": "enforced through the tax system"
+      }
+    ],
+    "year": "2018",
+    "lenses": [
+      "L1",
+      "L3"
+    ],
+    "attachTo": [
+      "tax_rich"
+    ],
+    "citation": "Pizzigati, S. (2018). The Case for a Maximum Wage. Polity.",
+    "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/the-case-for-a-maximum-wage-978-1-5095-2492-1",
+    "caveat": "Not a Hickel source, and not confirmed as the book he means. He names 'The Case for Maximum Income' (TEA 55:58, 58:56); searches found no book with that title. This is the closest title, and the identification is ours.",
+    "verification": "secondary",
+    "location": "Publisher listing (contents, description), an excerpt of chapter 1 on Perlego, and Alan Cottey's review in Prometheus 36(1), March 2020. The full book was not read.",
+    "author": "other"
+  },
+  {
+    "id": "F20",
+    "label": "Welfare since the long 16th century: decline, then late progress",
+    "values": [
+      {
+        "value": "5 regions",
+        "unit": "studied",
+        "note": "Europe, Latin America, sub-Saharan Africa, South Asia, China: incorporation into the capitalist world-system went with falling wages, shorter stature and more premature death"
+      },
+      {
+        "value": "1880s",
+        "unit": "progress begins",
+        "note": "core regions of Northwest Europe"
+      },
+      {
+        "value": "mid-20th century",
+        "unit": "progress begins",
+        "note": "periphery and semi-periphery"
+      }
+    ],
+    "year": "since the long 16th century",
+    "lenses": [
+      "L1",
+      "L4"
+    ],
+    "attachTo": [
+      "won_by_struggle",
+      "liberation",
+      "south_citizens"
+    ],
+    "citation": "Sullivan, D. & Hickel, J. (2023). Capitalism and extreme poverty: A global analysis of real wages, human height, and mortality since the long 16th century. World Development 161, 106026.",
+    "doi": "10.1016/j.worlddev.2022.106026",
+    "url": "https://doi.org/10.1016/j.worlddev.2022.106026",
+    "caveat": "Hickel dates the start of progress in the periphery to the early 20th century (TEA 1:10:04); the paper says the mid-20th century. Incorporation came at different times by region, not all in the 16th century (South Asia after 1757, for example). The indicators are proxies: wage records come from large institutions and may be unrepresentative, and the baskets cover limited goods. The authors note that many scholars whose data they use attribute these trends to population pressure rather than capitalism, and that further research is needed on what caused the later progress.",
+    "verification": "full-text",
+    "location": "Open-access PDF: abstract; statement of conclusions at the end of section 1; 'Research approach' (data limitations); closing discussion (population pressure, limits of the baskets). Regional sections were searched, not read line by line.",
+    "author": "hickel"
+  }
+]

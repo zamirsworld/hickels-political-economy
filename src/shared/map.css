@@ -1,0 +1,399 @@
+/* Map styles shared by the SVG prototypes (arrows, boxes, labels, switches, ring and touchpoint shapes). */
+
+#map {
+  --k: 1;
+  cursor: default;
+}
+.ring-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+.flow {
+  fill: none;
+  stroke: var(--flow);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s, opacity 0.3s;
+}
+.flow.off {
+  stroke: var(--flow-ghost);
+  stroke-dasharray: 2 4;
+}
+#map[data-focus='outside'] .flow.off {
+  opacity: 0.5;
+}
+#map:not([data-focus='outside']) .flow:not(.near):not(.opt):not(.trail):not(.loop) {
+  opacity: 0.35;
+}
+.flow.near {
+  stroke: var(--flow-strong);
+}
+.flow.near.off {
+  stroke: var(--flow-ghost);
+}
+.flow.inc {
+  stroke: var(--flow-strong);
+}
+.flow.trail {
+  stroke: var(--trail);
+  stroke-width: 2;
+  opacity: 0.8;
+}
+.flow.opt,
+.flow.hot {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  opacity: 1;
+}
+.flow.loop {
+  stroke: var(--tc);
+  stroke-width: 3;
+  opacity: 0.8;
+}
+.flow.loop.step {
+  stroke-width: 5;
+  opacity: 1;
+}
+[data-theme='orrery'] .flow.loop {
+  filter: url(#glow);
+}
+.flow.loop.off {
+  stroke-dasharray: 5 5;
+}
+#map[data-mode='loop'] .flow:not(.loop) {
+  opacity: 0.18;
+}
+#map[data-mode='node'] .flow:not(.opt):not(.trail):not(.inc):not(.hot) {
+  opacity: 0.25;
+}
+.pt {
+  fill: var(--flow-strong);
+  pointer-events: none;
+}
+.pt.hi {
+  fill: var(--accent);
+}
+.pt.tone-vicious {
+  fill: var(--c-m3);
+}
+.pt.tone-virtuous {
+  fill: var(--c-p3);
+}
+
+/* stations */
+.station {
+  cursor: pointer;
+  outline: none;
+}
+.st-hit {
+  fill: transparent;
+}
+.st-dot,
+.st-halo {
+  transition: fill 0.6s ease var(--delay, 0ms), stroke 0.6s ease var(--delay, 0ms);
+}
+.st-dot {
+  fill: var(--cc, var(--c-0));
+}
+.station.nocond {
+  --cc: var(--surface);
+}
+.station.ghost {
+  opacity: 0.32;
+}
+.station.ghost .st-dot {
+  stroke-dasharray: 2 2;
+}
+.st-here {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+}
+.station.here .st-here {
+  opacity: 1;
+  animation: here 2.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes here {
+  50% {
+    transform: scale(1.25);
+    opacity: 0.4;
+  }
+}
+.st-label {
+  font-size: calc(var(--k) * 12.5px);
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: calc(var(--k) * 4px);
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  font-family: var(--font-ui);
+}
+.station:hover .st-label,
+.station:focus-visible .st-label,
+.station.lit .st-label,
+#map[data-focus='politics'] .station[data-plane='politics'] .st-label,
+#map[data-focus='economy'] .station[data-plane='economy'] .st-label,
+#map[data-focus='empire'] .station[data-plane='empire'] .st-label,
+#map[data-mode='gate'] .st-label,
+#map[data-focus='outside'][data-mode='plane'] .station[data-plane='earth'] .st-label {
+  opacity: 1;
+}
+.station.here .st-label {
+  font-weight: 600;
+}
+.station.ghost .st-label {
+  font-style: italic;
+}
+
+.plane-title {
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: 30px;
+  fill: var(--ink);
+  pointer-events: none;
+  transition: opacity 0.4s;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+.plane-title-earth {
+  font-size: 19px;
+  letter-spacing: 0.32em;
+  stroke-width: 0;
+  fill: var(--p-earth);
+}
+#map:not([data-focus='outside']) .plane-title:not(.plane-title-earth),
+#map[data-mode='loop'] .plane-title:not(.plane-title-earth),
+#map[data-mode='gate'] .plane-title:not(.plane-title-earth) {
+  opacity: 0;
+}
+
+.flow-label {
+  font-size: calc(var(--k) * 11.5px);
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: calc(var(--k) * 4px);
+  stroke-linejoin: round;
+  pointer-events: none;
+  font-style: italic;
+  font-family: var(--font-ui);
+}
+.flow-label.strong {
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* gates */
+.gate {
+  cursor: pointer;
+  outline: none;
+}
+.gate-hit {
+  fill: transparent;
+}
+.gate-shape {
+  fill: var(--accent);
+  transition: transform 0.25s;
+}
+.gate:hover .gate-shape,
+.gate:focus-visible .gate-shape,
+.gate.sel .gate-shape {
+  transform: scale(1.35);
+}
+.gate.closed .gate-shape {
+  opacity: 0.45;
+}
+
+/* lever glyphs on the map */
+.lever-glyph {
+  cursor: pointer;
+  outline: none;
+}
+.lg-track {
+  fill: var(--c-m2);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+  transition: fill 0.25s;
+}
+.lever-glyph.on .lg-track {
+  fill: var(--c-p3);
+}
+.lg-knob {
+  fill: #fff;
+  transition: cx 0.25s;
+}
+.lever-glyph:hover .lg-track,
+.lever-glyph:focus-visible .lg-track {
+  stroke: var(--ink);
+}
+
+/* ---------- theme: orrery ---------- */
+[data-theme='orrery'] .stars circle {
+  fill: #fff;
+}
+[data-theme='orrery'] .stars .twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+}
+@keyframes twinkle {
+  50% {
+    opacity: 0.1;
+  }
+}
+[data-theme='orrery'] .orbit {
+  fill: none;
+  stroke: var(--ring);
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='orrery'] .orbit-inner {
+  fill: none;
+  stroke: var(--ring);
+  stroke-opacity: 0.25;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='orrery'] .ticks {
+  stroke: var(--ring);
+  stroke-opacity: 0.4;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='orrery'] .ring-earth .orbit {
+  stroke: var(--p-earth);
+  stroke-opacity: 0.6;
+}
+[data-theme='orrery'] .ring-earth .ticks {
+  stroke: var(--p-earth);
+}
+[data-theme='orrery'] .ring:hover .orbit {
+  stroke-width: 2;
+}
+[data-theme='orrery'] .st-dot {
+  stroke: var(--ring);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='orrery'] .st-halo {
+  fill: var(--cc);
+  opacity: 0.22;
+  filter: url(#glow);
+}
+[data-theme='orrery'] .station.nocond .st-halo {
+  opacity: 0;
+}
+[data-theme='orrery'] .plane-title {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 34px;
+  stroke-width: 0;
+  fill: var(--ink);
+  opacity: 0.92;
+}
+[data-theme='orrery'] .flow.opt {
+  filter: url(#glow);
+}
+
+/* ---------- theme: transit ---------- */
+[data-theme='transit'] .grid {
+  stroke: rgba(28, 28, 26, 0.05);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='transit'] .band {
+  fill: none;
+  stroke-width: 10;
+}
+[data-theme='transit'] .ring-earth .band {
+  stroke-width: 14;
+}
+[data-theme='transit'] .band-casing {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 16;
+}
+[data-theme='transit'] .ring-earth .band-casing {
+  stroke-width: 20;
+}
+[data-theme='transit'] .ring:hover .band {
+  stroke-width: 12;
+}
+[data-theme='transit'] .st-dot {
+  stroke: var(--ink);
+  stroke-width: 2.2;
+}
+[data-theme='transit'] .station.nocond .st-dot {
+  fill: #fff;
+}
+[data-theme='transit'] .gate-shape {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+[data-theme='transit'] .gate.sel .gate-shape {
+  fill: var(--ink);
+}
+[data-theme='transit'] .flow {
+  stroke-linecap: round;
+}
+[data-theme='transit'] .flow.opt,
+[data-theme='transit'] .flow.hot {
+  stroke-width: 3;
+}
+[data-theme='transit'] .plane-title {
+  font-size: 28px;
+  letter-spacing: -0.01em;
+}
+[data-theme='transit'] .plane-title-earth {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+
+/* wide invisible strokes so arrows are easy to click */
+.flow-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14px;
+  vector-effect: non-scaling-stroke;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.flow-hit:hover {
+  stroke: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.traveler {
+  fill: var(--accent);
+  stroke: var(--bg);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.traveler-halo {
+  fill: var(--accent);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* arrows that rest on outside (non-Hickel) sources are dashed */
+.flow.external:not(.off) {
+  stroke-dasharray: 6 4;
+}
+/* a route that never arrives */
+.flow.blocked:not(.off) {
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+}
+/* boxes that rest only on outside voices */
+.station.external .st-dot {
+  stroke-dasharray: 2 2;
+}

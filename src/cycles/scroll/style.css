@@ -1,0 +1,159 @@
+/* Scrollytelling layout: a full-width opening, then the pinned ring beside the scrolling steps. */
+#app {
+  display: block;
+  height: auto;
+}
+html,
+body {
+  height: auto;
+}
+.bar {
+  position: sticky;
+  top: 0;
+}
+.progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 10;
+}
+.progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.hero {
+  min-height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 16px 30px;
+}
+.hero-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero .big-q {
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  margin: 10px 0 18px;
+}
+.hero .text {
+  font-size: 1.18rem;
+  max-width: 680px;
+}
+.cue {
+  text-align: center;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  margin-top: 30px;
+}
+.cue span {
+  display: inline-block;
+  animation: bob 1.6s ease-in-out infinite;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(5px);
+  }
+}
+.story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 1fr);
+  border-top: 1px solid var(--rule);
+}
+.pin {
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+}
+.dia {
+  position: relative;
+  height: 100%;
+  padding: 18px 12px 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dia .cycle {
+  max-height: 100%;
+  max-width: 740px;
+}
+.dia .kinds {
+  position: absolute;
+  left: 20px;
+  bottom: 14px;
+}
+.steps {
+  padding: 0 28px 0 8px;
+  min-width: 0;
+}
+.step {
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 8vh 0;
+}
+.step.last {
+  min-height: 100vh;
+}
+.panel {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 26px 28px;
+  opacity: 0.35;
+  transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.step.active .panel {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+}
+.end-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+@media (max-width: 860px) {
+  .story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .step {
+    display: block;
+  }
+  .pin {
+    top: 52px;
+    height: 46vh;
+    z-index: 2;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .dia {
+    padding: 6px 6px 34px;
+  }
+  .steps {
+    padding: 0 16px;
+  }
+  .step {
+    min-height: 70vh;
+    align-items: flex-start;
+  }
+  .bar .sub.mode {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+    transform: none;
+  }
+  .cue span {
+    animation: none;
+  }
+}

@@ -1,0 +1,125 @@
+/* B: rings of actors inside the regions. */
+.region-title {
+  fill: var(--rc);
+  letter-spacing: 0.06em;
+}
+#map:not([data-focus='outside']) .plane-title.region-title {
+  opacity: 0.85;
+}
+[data-theme='orrery'] .region-orbit {
+  stroke: var(--rc);
+  stroke-opacity: 0.85;
+}
+[data-theme='orrery'] .ring .ticks {
+  stroke: var(--rc);
+}
+[data-theme='orrery'] .ring .orbit-inner {
+  stroke: var(--rc);
+}
+[data-theme='transit'] .region-title {
+  font-weight: 700;
+}
+
+/* rings of actors */
+.group {
+  cursor: zoom-in;
+}
+.group-hit {
+  fill: transparent;
+}
+.group-orbit {
+  fill: color-mix(in srgb, var(--rc) 6%, transparent);
+  stroke: var(--rc);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+.group-casing {
+  fill: color-mix(in srgb, var(--rc) 6%, var(--bg));
+  stroke: var(--bg);
+  stroke-width: 9;
+}
+.group-band {
+  fill: none;
+  stroke: var(--rc);
+  stroke-opacity: 0.55;
+  stroke-width: 4;
+}
+.group:hover .group-orbit,
+.group.sel .group-orbit {
+  stroke-opacity: 1;
+  stroke-dasharray: none;
+}
+.group:hover .group-band,
+.group.sel .group-band {
+  stroke-opacity: 1;
+}
+.group.empty .group-band,
+.group.empty .group-orbit {
+  stroke-dasharray: 6 5;
+}
+.group-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: var(--title-weight);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: var(--rc);
+  pointer-events: none;
+}
+[data-theme='orrery'] .group-title {
+  text-transform: none;
+  font-style: italic;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+.group-note {
+  font: italic 11px var(--font-ui);
+  fill: var(--ink-2);
+  pointer-events: none;
+}
+
+/* labels: the boxes of the region in focus, and quieter labels for boxes from the other world */
+.station.in-focus .st-label {
+  opacity: 1;
+}
+.station.ghost.in-focus:not(.lit):not(:hover) .st-label {
+  opacity: 0;
+}
+
+/* Global institutions carries its title inside */
+.region-title.inner-title {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* highways between the circles: a casing, a band and a dashed center line, under the arrows */
+.road path {
+  fill: none;
+  stroke-linecap: butt;
+  pointer-events: none;
+}
+.road-casing {
+  stroke: var(--bg);
+}
+.road-band {
+  stroke: color-mix(in srgb, var(--ink) 9%, var(--bg));
+}
+.road-line {
+  stroke: color-mix(in srgb, var(--ink) 35%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 6 6;
+  vector-effect: non-scaling-stroke;
+}
+[data-theme='orrery'] .road-casing {
+  stroke: transparent;
+}
+[data-theme='orrery'] .road-band {
+  stroke: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+[data-theme='orrery'] .road-line {
+  stroke: color-mix(in srgb, var(--ink) 30%, transparent);
+}

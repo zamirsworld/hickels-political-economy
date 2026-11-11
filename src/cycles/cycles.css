@@ -1,0 +1,743 @@
+/* The guided cycles: the ring diagram, step cards and shared page parts. Theme tokens come from
+   shared/base.css (Orrery and Transit). */
+/* Arrow kinds: the same colors in both themes. The first four are the user's palette; vote, ideology,
+   resources and pollution are added for the cycles that use them. */
+:root {
+  --k-decision: #6387ff;
+  --k-money: #ffc812;
+  --k-force: #b33130;
+  --k-labor: #4db349;
+  --k-vote: #a77bff;
+  --k-ideology: #e2619f;
+  --k-resources: #25b3a6;
+  --k-pollution: #8d7b6a;
+  --k-open: var(--c-p2);
+}
+body {
+  overflow-x: hidden;
+}
+
+/* --- top bar ------------------------------------------------------------------------------------------- */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  position: relative;
+  z-index: 5;
+}
+.bar .title {
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: 1.1rem;
+}
+.bar .sub {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+.bar .sub a {
+  color: inherit;
+}
+.bar .grow {
+  flex: 1;
+}
+.ghost {
+  border: 1px solid var(--rule);
+  background: transparent;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+}
+.ghost:hover {
+  border-color: var(--ink-2);
+}
+
+/* --- the ring ------------------------------------------------------------------------------------------- */
+.cycle {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  font-family: var(--font-ui);
+}
+.half {
+  opacity: 0.05;
+}
+.north-half {
+  fill: var(--p-north);
+}
+.south-half {
+  fill: var(--p-south);
+}
+.divider {
+  stroke: var(--ink-2);
+  stroke-opacity: 0.35;
+  stroke-dasharray: 3 6;
+}
+.side-label {
+  fill: var(--p-north);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+.side-label.south {
+  fill: var(--p-south);
+}
+.ring-ghost {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1;
+  stroke-dasharray: 2 7;
+}
+.arc-g {
+  --k: var(--k-decision);
+}
+.kind-money {
+  --k: var(--k-money);
+}
+.kind-force {
+  --k: var(--k-force);
+}
+.kind-labor {
+  --k: var(--k-labor);
+}
+.kind-decision {
+  --k: var(--k-decision);
+}
+.kind-vote {
+  --k: var(--k-vote);
+}
+.kind-ideology {
+  --k: var(--k-ideology);
+}
+.kind-resources {
+  --k: var(--k-resources);
+}
+.kind-pollution {
+  --k: var(--k-pollution);
+}
+.arc-ghost {
+  fill: none;
+  stroke: var(--k);
+  stroke-opacity: 0.12;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+.arc {
+  fill: none;
+  stroke: var(--k);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.6, 0, 0.3, 1), stroke-width 0.3s, opacity 0.4s;
+}
+.arc-g:not(.drawn) .arc {
+  marker-end: none;
+  opacity: 0; /* a zero-length dash with round caps would still show a dot */
+}
+.arc-g.drawn .arc {
+  stroke-dashoffset: 0;
+}
+.arc-g.current .arc {
+  stroke-width: 7;
+  filter: drop-shadow(0 0 6px var(--k));
+}
+.arc-label {
+  fill: var(--ink-2);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.6s 0.6s;
+}
+.arc-g.drawn .arc-label {
+  opacity: 1;
+}
+.arc-g.current .arc-label {
+  fill: var(--ink);
+  font-weight: 600;
+}
+.arc-x {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.arc-x circle {
+  fill: var(--bg);
+  stroke: var(--k-force);
+  stroke-width: 2;
+}
+.arc-x path {
+  stroke: var(--k-force);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.arc-g.closed .arc {
+  opacity: 0.18;
+  filter: none;
+}
+.arc-g.closed .arc-label {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+.arc-g.closed .arc-x {
+  opacity: 1;
+}
+.mk path {
+  fill: var(--k);
+}
+/* arrows that open with the toggle: the alternative's color, or their own kind's when a virtuous loop shows today */
+.mk.open path {
+  fill: var(--k-open);
+}
+.tone-virtuous .mk.open path {
+  fill: var(--k);
+}
+
+.node {
+  --rc: var(--p-north);
+}
+.r-south {
+  --rc: var(--p-south);
+}
+.r-global {
+  --rc: var(--p-global);
+}
+.r-environment {
+  --rc: var(--p-environment);
+}
+.node-halo {
+  fill: var(--rc);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.node.here .node-halo {
+  opacity: 0.22;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+.node-dot {
+  fill: var(--surface);
+  stroke: var(--rc);
+  stroke-width: 2;
+  stroke-opacity: 0.45;
+  transition: fill 0.5s, stroke-opacity 0.5s;
+}
+.node.reached .node-dot {
+  stroke-opacity: 1;
+  stroke-width: 3;
+}
+.node.here .node-dot,
+.node.from .node-dot {
+  fill: color-mix(in srgb, var(--rc) 22%, var(--surface));
+}
+.node-num {
+  fill: var(--rc);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+  opacity: 0.6;
+}
+.node.reached .node-num {
+  opacity: 1;
+}
+.node-label {
+  fill: var(--ink-2);
+  font-size: 14px;
+  font-weight: 600;
+  text-anchor: middle;
+  transition: fill 0.4s;
+}
+.node.reached .node-label,
+.node.here .node-label {
+  fill: var(--ink);
+}
+.node.mark-right .node-dot {
+  fill: color-mix(in srgb, var(--c-p2) 35%, var(--surface));
+  stroke: var(--c-p2);
+}
+.node.mark-wrong .node-dot {
+  stroke: var(--k-force);
+  stroke-dasharray: 4 4;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.06;
+  }
+}
+
+.center-big {
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+.center-small {
+  fill: var(--ink-2);
+  font-size: 15px;
+  text-anchor: middle;
+  letter-spacing: 0.04em;
+}
+.token {
+  --k: var(--accent);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.token-dot {
+  fill: var(--k);
+}
+.token-halo {
+  fill: var(--k);
+  opacity: 0.3;
+}
+
+/* sovereignty: the Southern development arrows */
+.open-g {
+  --o: var(--k-open);
+}
+.tone-virtuous .open-g {
+  --o: var(--k);
+}
+.open-arc {
+  fill: none;
+  stroke: var(--o);
+  stroke-width: 4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.2s 0.4s;
+}
+.open-label {
+  fill: var(--o);
+  font-size: 12.5px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.5s 1.2s;
+}
+
+.cycle:not(.broken) .open-arc {
+  marker-end: none;
+}
+.broken .open-arc {
+  stroke-dashoffset: 0;
+}
+.broken .open-label {
+  opacity: 1;
+}
+.center {
+  transition: transform 0.6s;
+}
+.broken .node.lit .node-dot {
+  fill: color-mix(in srgb, var(--k-open) 25%, var(--surface));
+  stroke: var(--k-open);
+}
+.tone-virtuous.broken .node.lit .node-dot {
+  fill: color-mix(in srgb, var(--k-force) 18%, var(--surface));
+  stroke: var(--k-force);
+}
+/* boxes off the ring, shown with the toggle */
+.sat {
+  --rc: var(--p-north);
+  opacity: 0;
+  transition: opacity 0.5s 0.3s;
+}
+.sat circle {
+  fill: color-mix(in srgb, var(--rc) 16%, var(--surface));
+  stroke: var(--rc);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.sat-label {
+  fill: var(--ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+.broken .sat {
+  opacity: 1;
+}
+
+.kinds {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+.lg i {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: var(--k);
+}
+
+/* --- step content ----------------------------------------------------------------------------------------- */
+.kicker {
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.step-title {
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  line-height: 1.08;
+  margin: 8px 0 14px;
+}
+.route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  padding: 4px 12px 4px 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  margin-bottom: 14px;
+}
+.route b {
+  font-weight: 600;
+}
+.route .kind-tag {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--k);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.text {
+  font-size: 1.06rem;
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+.why {
+  border-left: 3px solid var(--k);
+  padding: 4px 0 4px 14px;
+  margin: 16px 0;
+}
+.why .lbl,
+.aside .lbl {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+.chip {
+  font-size: 0.78rem;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+.chip b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.chip:hover {
+  border-color: var(--ink-2);
+}
+.hickel-says {
+  font-size: 0.78rem;
+  color: var(--ink-2);
+  margin-top: 12px;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+.stat {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.stat .v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--k, var(--accent));
+}
+.stat .u {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.stat .c {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+.fig-cite {
+  font-size: 0.72rem;
+  color: var(--ink-2);
+}
+.timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+  list-style: none;
+  padding: 0;
+}
+.timeline li {
+  font-size: 0.78rem;
+  border-radius: 8px;
+  padding: 5px 9px;
+  background: color-mix(in srgb, var(--k-force) 14%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--k-force) 35%, transparent);
+  opacity: 0;
+  transform: translateY(6px);
+  animation: rise 0.45s forwards;
+}
+.timeline li b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.aside {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-top: 16px;
+  font-size: 0.92rem;
+}
+.aside .chips {
+  margin-bottom: 0;
+}
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--k-open);
+}
+.toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: var(--k-force);
+  flex: none;
+}
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  transition: transform 0.3s;
+}
+.toggle[aria-checked='true'] {
+  background: var(--k-open);
+}
+.toggle[aria-checked='true']::after {
+  transform: translateX(24px);
+}
+.switch-row .lbl b {
+  display: block;
+}
+.switch-row .lbl span {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+.pushback {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+}
+.pill {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-decoration: none;
+  display: inline-block;
+}
+.pill.quiet {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+.pill:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.big-q {
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+}
+@media (prefers-reduced-motion: reduce) {
+  .arc,
+  .open-arc,
+  .timeline li {
+    transition: none;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .node.here .node-halo {
+    animation: none;
+  }
+}
+
+/* the closed loop recap */
+.recap {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  display: grid;
+  gap: 6px;
+}
+.recap button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+.recap button:hover {
+  border-color: var(--rule);
+}
+.recap .n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  width: 22px;
+  text-align: center;
+}
+.recap small {
+  display: block;
+  color: var(--ink-2);
+}
+
+/* narrow screens: keep the top bar on one line and long citations inside their card */
+.fig-cite {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .bar {
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  .bar .title {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+  }
+  .bar .grow,
+  .bar .sub:not(:first-child) {
+    display: none;
+  }
+}
+
+/* progressive ring (predict, then reveal): what lies ahead stays hidden until the answer is in */
+.progressive .node,
+.progressive .arc-ghost {
+  transition: opacity 0.5s;
+}
+.progressive .node:not(.shown),
+.progressive .arc-g:not(.drawn) .arc-ghost {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* text on the kind tags: dark on the light yellow, white on the others */
+.kind-tag {
+  color: #fff;
+}
+.kind-money .kind-tag {
+  color: #1c1c1a;
+}
+
+/* --- shared across the cycle pages --------------------------------------------------------------------- */
+.picker select {
+  font: inherit;
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 3px 8px;
+  max-width: 62vw;
+}
+.picker select option {
+  color: #111;
+}
+.bar .mode a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.badge-other {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px dashed currentColor;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.pushback .chips {
+  margin-top: 6px;
+}
+@media (max-width: 860px) {
+  .bar .mode {
+    display: none;
+  }
+}
+
+.bar > a.sub {
+  white-space: nowrap;
+}

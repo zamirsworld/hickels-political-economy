@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Raw source transcript (third-party content, kept out of the public repo)
+*_transcript.txt
+NoteGPT_Subtitles_*.txt
+src/data/*.local.json
+
+# All raw source transcripts / subtitles (third-party content, never committed)
+txt_sources/
+
+# Internal working notes: kept locally, not published in the public repo
+CLAUDE.md
+HANDOFF.md
+BLUEPRINT.md
+research/
