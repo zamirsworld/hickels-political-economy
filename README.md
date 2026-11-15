@@ -4,7 +4,7 @@ An interactive, cited map of the political economy Jason Hickel describes across
 
 **Live site:** https://zamirsworld.github.io/hickels-political-economy/
 
-- **The map** (`/`): capital, the state, labor, empire and the ecosystem as boxes and arrows, with feedback loops, seven on/off switches and a ripple of vicious ↔ virtuous conditions.
+- **The map** (`/`): capital, the state, labor, empire and the ecosystem as boxes and arrows, with feedback loops, seven on/off switches and a ripple of vicious ↔ virtuous conditions. Under the map, a timeline of dated events from the talks and six lenses that dim everything outside one question.
 - **Guided cycles** (`/cycles/`): ten major cycles told step by step, either as a story or as a guess-and-reveal game, written for readers new to the subject.
 - **About** (`/about/`): the talks, how claims are sourced, what isn't Hickel's, and how each figure was checked.
 
@@ -36,7 +36,7 @@ npm run dev
 
 Code: the map in `src/map/` and `src/shared/`; the guided cycles in `src/cycles/` (pages in `cycles/`); the About page in `src/about/`.
 
-A map view can be linked to: the address keeps the open box, arrow, cycle or region and the switches (for example `#loop=loop_imperial` or `#box=capital&alt=1`).
+A map view can be linked to: the address keeps the open box, arrow, cycle or region and the switches (for example `#loop=loop_imperial`, `#box=capital&alt=1`, `#event=nieo_1974` or `#lens=L5`).
 
 ## Data
 

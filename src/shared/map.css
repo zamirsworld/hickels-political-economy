@@ -397,3 +397,11 @@
 .station.external .st-dot {
   stroke-dasharray: 2 2;
 }
+
+/* a lens is in use: what it does not cover steps back */
+#map .flow.off-lens:not(.loop):not(.opt):not(.trail):not(.hot) {
+  opacity: 0.05 !important;
+}
+#map .station.off-lens:not(.here):not(.lit) {
+  opacity: 0.16;
+}

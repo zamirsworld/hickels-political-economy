@@ -5,7 +5,7 @@ import raw from '../data/system.json'
 import { activeView, configFor, decodeConfig, encodeConfig, LEVER_ORDER, presetOf, PRESETS, type LeverConfig } from '../model/levers.ts'
 import { conditionValues, level, rippleSteps } from '../model/ripple.ts'
 import { checkedHow } from '../model/figures.ts'
-import type { BuiltData, LeverId, ResolvedSource } from '../model/types.ts'
+import type { BuiltData, LensId, LeverId, ResolvedSource } from '../model/types.ts'
 import { CYCLE_CARDS, WALKTHROUGHS } from '../cycles/registry.ts'
 
 export const data = raw as unknown as BuiltData
@@ -16,6 +16,18 @@ export const flowById = new Map(data.flows.map((f) => [f.id, f]))
 export const loopById = new Map(data.loops.map((l) => [l.id, l]))
 export const leverById = new Map(data.levers.map((l) => [l.id, l]))
 const episodeById = new Map(data.meta.episodes.map((e) => [e.id, e]))
+/** The dated events, earliest first, for the timeline under the map. */
+export const EVENTS = [...data.events].sort((a, b) => (a.sortYear ?? 0) - (b.sortYear ?? 0))
+const eventById = new Map(data.events.map((e) => [e.id, e]))
+/** The timeline's scale: early centuries are squeezed so the crowded decades after 1950 get room. */
+const TIME_STOPS: [number, number][] = [[1450, 0], [1800, 0.1], [1900, 0.24], [1950, 0.42], [1990, 0.8], [2025, 1]]
+function timeFrac(year: number) {
+  const y = Math.min(2025, Math.max(1450, year))
+  const i = Math.max(1, TIME_STOPS.findIndex(([t]) => t >= y))
+  const [y0, f0] = TIME_STOPS[i - 1]
+  const [y1, f1] = TIME_STOPS[i]
+  return f0 + ((y - y0) / (y1 - y0)) * (f1 - f0)
+}
 /** The outside speaker behind a source, or null for Hickel. */
 const speakerOf = (s: ResolvedSource) => (episodeById.get(s.ep)?.outside ? (s.speaker ?? episodeById.get(s.ep)!.speaker ?? s.ep) : null)
 const speakers = (ss: ResolvedSource[]) => [...new Set(ss.map(speakerOf).filter((x): x is string => !!x))]
@@ -155,6 +167,10 @@ export class App {
   mode: Mode = { kind: 'outside' }
   trail: { node: string; via?: string }[] = []
   hotFlow: string | null = null
+  /** The event picked on the timeline, shown as a card at the top of the panel. */
+  event: string | null = null
+  /** The lens in use: everything it does not cover is dimmed. */
+  lens: LensId | null = null
   theme: ThemeId
   themes: ThemeId[]
   motion = readMotion()
@@ -199,9 +215,10 @@ export class App {
         </div>
       </header>
       <main class="body">
-        <section class="stage-wrap"><div class="stage" id="stage" aria-label="Map"></div>
+        <section class="stage-wrap"><div class="stage-area"><div class="stage" id="stage" aria-label="Map"></div>
           <div class="story-bar" id="story" hidden></div>
-          <div class="toast" id="toast" role="status" aria-live="polite" hidden></div></section>
+          <div class="toast" id="toast" role="status" aria-live="polite" hidden></div></div>
+          <div class="under-map"><div class="lens-row" id="lenses" role="group" aria-label="Lens"></div><div class="tl" id="timeline" aria-label="Timeline of events"></div></div></section>
         <aside class="panel" id="panel" aria-live="polite"></aside>
       </main>`
     this.stage = document.getElementById('stage')!
@@ -211,7 +228,10 @@ export class App {
     this.bindEvents()
     this.rebuild()
     this.renderStart()
-    addEventListener('resize', () => this.map.resize?.(this))
+    addEventListener('resize', () => {
+      this.map.resize?.(this)
+      this.renderBand()
+    })
     document.fonts?.ready.then(() => this.map.resize?.(this))
   }
 
@@ -268,11 +288,27 @@ export class App {
     this.writeHash()
   }
 
+  /** Pick an event on the timeline: its card opens in the panel and the map turns to its region. */
+  selectEvent(id: string | null) {
+    const e = id ? eventById.get(id) : undefined
+    if (!e) {
+      this.event = null
+      return this.update()
+    }
+    this.event = e.id
+    this.go(e.region === 'global' ? { kind: 'outside' } : { kind: 'plane', plane: e.region as PlaneId }, { keepEvent: true })
+  }
+  /** Look through one lens (or none): what it does not cover is dimmed. */
+  setLens(id: LensId | null) {
+    this.lens = id
+    this.hideStart()
+    this.update()
+  }
   /** Keep the view in the address (box, arrow, cycle, region, switches), so it can be shared or linked to. */
   private writeHash() {
     if (!this.started) return
     const params = new URLSearchParams(location.hash.slice(1))
-    for (const k of ['box', 'arrow', 'loop', 'step', 'region', 'crossing', 'alt', 'lv']) params.delete(k)
+    for (const k of ['box', 'arrow', 'loop', 'step', 'region', 'crossing', 'alt', 'lv', 'event', 'lens']) params.delete(k)
     const m = this.mode
     if (m.kind === 'node') params.set('box', m.node)
     else if (m.kind === 'flow') params.set('arrow', m.flow)
@@ -281,6 +317,8 @@ export class App {
       if (m.step) params.set('step', String(m.step + 1))
     } else if (m.kind === 'plane') params.set('region', m.plane)
     else if (m.kind === 'gate') params.set('crossing', m.gate)
+    if (this.event) params.set('event', this.event)
+    if (this.lens) params.set('lens', this.lens)
     const world = encodeConfig(this.cfg) // "", "alt" or "lv=0110001"
     if (world === 'alt') params.set('alt', '1')
     else if (world) params.set('lv', world.slice(3))
@@ -301,16 +339,21 @@ export class App {
     else if (crossing && this.model.gates.some((g) => g.key === crossing)) m = { kind: 'gate', gate: crossing }
     const cfg = decodeConfig(params)
     const switched = LEVER_ORDER.some((id) => cfg[id] !== this.cfg[id])
-    if (!m && !switched) return false
+    const lens = data.lenses.find((l) => l.id === params.get('lens'))?.id ?? null
+    const event = eventById.get(params.get('event') ?? '')
+    if (!m && !switched && !lens && !event) return false
+    this.lens = lens
     if (switched) this.setWorld(cfg)
     this.hideStart()
-    if (m) this.go(m)
+    if (event) this.selectEvent(event.id)
+    else if (m) this.go(m)
     else this.update()
     return true
   }
 
-  go(m: Mode, opts: { via?: string } = {}) {
+  go(m: Mode, opts: { via?: string; keepEvent?: boolean } = {}) {
     const prev = this.mode
+    if (!opts.keepEvent) this.event = null // moving on closes the event card
     if (m.kind === 'node') {
       const last = this.trail[this.trail.length - 1]
       if (!last || last.node !== m.node) this.trail.push({ node: m.node, via: opts.via })
@@ -501,7 +544,64 @@ export class App {
               : m.kind === 'flow'
                 ? this.flowPanel(m.flow)
                 : this.loopPanel(m.loop, m.step)
-    return this.crumbs() + body + this.trailHtml()
+    return this.crumbs() + this.lensCard() + this.eventCard() + body + this.trailHtml()
+  }
+  /** The event picked on the timeline: what happened, when, and where Hickel talks about it. */
+  eventCard() {
+    const e = this.event ? eventById.get(this.event) : undefined
+    if (!e) return ''
+    const i = EVENTS.indexOf(e)
+    const step = (j: number, text: string) => (EVENTS[j] ? `<button type="button" class="pill" data-event="${EVENTS[j].id}">${text}</button>` : '')
+    return `<div class="event-card"><button type="button" class="toast-x" data-event-close aria-label="Close">×</button>
+      <div class="eyebrow">On the timeline · ${esc(e.year)}</div>
+      <strong class="event-title">${esc(e.label)}</strong>
+      <p class="small">${esc(e.description)}</p>${links(e.sources)}
+      <div class="row-btns">${step(i - 1, '← Earlier')}${step(i + 1, 'Later →')}</div></div>`
+  }
+  /** The lens in use: its question, how much of the map it covers, and the way back. */
+  lensCard() {
+    const l = data.lenses.find((x) => x.id === this.lens)
+    if (!l) return ''
+    const n = (xs: { lenses: LensId[] }[]) => xs.filter((x) => x.lenses.includes(l.id)).length
+    return `<div class="lens-card"><div class="eyebrow">Lens</div>
+      <strong class="event-title">${esc(l.title)}</strong>
+      <p class="small">${esc(l.question)}</p>
+      <p class="small muted">${n(data.nodes)} boxes, ${n(data.flows)} arrows and ${n(data.loops)} cycles belong to this question. The rest is dimmed.</p>
+      <div class="row-btns"><button type="button" class="pill" data-lens="">Show everything</button></div></div>`
+  }
+  /** The band under the map: the lens chips, and the dated events on a timeline. */
+  renderBand() {
+    const lensEl = document.getElementById('lenses')
+    const tl = document.getElementById('timeline')
+    if (!lensEl || !tl) return
+    lensEl.innerHTML =
+      '<span class="band-label">Lens</span>' +
+      data.lenses
+        .map((l) => `<button type="button" class="lens-chip${this.lens === l.id ? ' on' : ''}" data-lens="${l.id}" aria-pressed="${this.lens === l.id}" title="${esc(l.question)}">${esc(l.title)}</button>`)
+        .join('')
+    const W = Math.max(640, tl.clientWidth)
+    const x = (year: number) => 18 + timeFrac(year) * (W - 36)
+    const rowTop = [34, 20, 6]
+    const lastX = [-99, -99, -99] // dots that would overlap move up a row
+    const dots = EVENTS.map((e) => {
+      const px = x(e.sortYear ?? 0)
+      let row = lastX.findIndex((v) => px - v >= 13)
+      if (row < 0) row = lastX.indexOf(Math.min(...lastX))
+      lastX[row] = px
+      const name = esc(`${e.year}: ${e.label}`)
+      const cls = `${this.event === e.id ? ' on' : ''}${this.lens && !e.lenses.includes(this.lens) ? ' off-lens' : ''}`
+      return `<button type="button" class="tl-dot r-${e.region}${cls}" style="left:${px.toFixed(1)}px;top:${rowTop[row]}px" data-event="${e.id}" title="${name}" aria-label="${name}" aria-pressed="${this.event === e.id}"></button>`
+    }).join('')
+    const ticks = [1500, 1800, 1900, 1950, 1975, 2000].map((y) => `<span class="tl-tick" style="left:${x(y).toFixed(1)}px">${y}</span>`).join('')
+    const keep = tl.scrollLeft
+    tl.innerHTML = `<div class="tl-inner" style="width:${W}px"><span class="band-label tl-name">History</span><span class="tl-axis"></span>${ticks}${dots}</div>`
+    tl.scrollLeft = keep
+    // on a narrow screen the strip scrolls sideways: keep the picked event in view
+    const picked = eventById.get(this.event ?? '')
+    if (picked) {
+      const px = x(picked.sortYear ?? 0)
+      if (px < tl.scrollLeft + 12 || px > tl.scrollLeft + tl.clientWidth - 12) tl.scrollLeft = px - tl.clientWidth / 2
+    }
   }
   decisionsHtml() {
     return LEVER_ORDER.map((id) => {
@@ -726,6 +826,7 @@ export class App {
       ${data.meta.episodes.some((e) => e.outside) ? '<span class="lg-item"><span class="lg-dash"></span>outside voice</span>' : ''}`
     const out = document.getElementById('outside')
     if (out) out.hidden = this.mode.kind === 'outside'
+    this.renderBand()
   }
   renderStart() {
     const el = document.getElementById('start')
@@ -766,6 +867,12 @@ export class App {
       let el: HTMLElement | SVGElement | null
       if ((el = q('[data-theme-go]'))) return this.setTheme(el.dataset.themeGo as ThemeId)
       if ((el = q('[data-world]'))) return this.setWorld(configFor(el.dataset.world as 'today' | 'alt'))
+      if ((el = q('[data-event-close]'))) return this.selectEvent(null)
+      if ((el = q('[data-event]'))) return this.selectEvent(this.event === el.dataset.event && el.classList.contains('tl-dot') ? null : el.dataset.event!)
+      if ((el = q('[data-lens]'))) {
+        const id = (el.dataset.lens || null) as LensId | null
+        return this.setLens(id === this.lens ? null : id)
+      }
       if ((el = q('[data-lever]'))) {
         const id = el.dataset.lever as LeverId
         return this.setLever(id, !this.cfg[id])
@@ -996,7 +1103,7 @@ export function particleSpecs(app: App, em: Emphasis, near: (f: Flow) => boolean
   let ids: string[]
   if (m.kind === 'loop') ids = [...em.loopFlows]
   else if (em.opt.size) ids = [...em.opt, ...em.trailFlows]
-  else ids = data.flows.filter((f) => app.view.flows.has(f.id) && near(f)).map((f) => f.id)
+  else ids = data.flows.filter((f) => app.view.flows.has(f.id) && near(f) && (!app.lens || f.lenses.includes(app.lens))).map((f) => f.id)
   return ids.map((id) => {
     const f = flowById.get(id)!
     const big = m.kind === 'loop' || em.opt.has(id)
@@ -1031,6 +1138,7 @@ export function flowClasses(app: App, em: Emphasis, f: Flow, near: boolean) {
   if (em.trailFlows.has(f.id)) cls.push('trail')
   if (app.hotFlow === f.id) cls.push('hot')
   if (near) cls.push('near')
+  if (app.lens && !f.lenses.includes(app.lens)) cls.push('off-lens')
   return cls.join(' ')
 }
 /** Boxes to label and light: the current box, the path, the targets on offer, the cycle's boxes. */
@@ -1054,6 +1162,7 @@ export function stationClasses(app: App, id: string, lit: Set<string>) {
   if (app.mode.kind === 'node' && app.mode.node === id) cls.push('here')
   if (lit.has(id)) cls.push('lit')
   if (nodeById.get(id)?.external) cls.push('external')
+  if (app.lens && !nodeById.get(id)?.lenses.includes(app.lens)) cls.push('off-lens')
   return cls.join(' ')
 }
 /** Text labels for the arrows in focus, placed along each path at `at` (0–1). */
