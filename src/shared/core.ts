@@ -272,6 +272,7 @@ export class App {
       if (!last || last.node !== m.node) this.trail.push({ node: m.node, via: opts.via })
     }
     this.mode = m
+    this.hotFlow = null // the panel is redrawn, so the hovered route is gone
     this.hideStart()
     this.map.navigate(this, prev, opts.via ? flowById.get(opts.via) : undefined)
     this.update()
@@ -803,6 +804,13 @@ export class App {
         this.map.update(this)
       }
     })
+    // … and leaving the panel puts it out, so no arrow stays lit
+    this.panel.addEventListener('mouseleave', () => {
+      if (this.hotFlow) {
+        this.hotFlow = null
+        this.map.update(this)
+      }
+    })
   }
 }
 
@@ -815,7 +823,7 @@ export function levelWord(id: string, lv: number) {
 }
 export function closureHtml(c: Closure) {
   if (!c.loop)
-    return `<div class="eyebrow">↻ You closed a cycle</div><p class="small">Your path came back to ${esc(label(flowById.get(c.flows[c.flows.length - 1])!.to))}. It is not one of the 22 loops we drew, but every step is a sourced arrow.</p>`
+    return `<div class="eyebrow">↻ You closed a cycle</div><p class="small">Your path came back to ${esc(label(flowById.get(c.flows[c.flows.length - 1])!.to))}. It is not one of the ${data.loops.length} loops we drew, but every step is a sourced arrow.</p>`
   return `<div class="eyebrow tone-text-${c.loop.tone}">↻ Cycle traced · ${c.loop.tone} · ${c.loop.kind}</div>
     <div class="rp-title">${esc(c.loop.label)}</div><p class="small">${esc(c.loop.description)}</p>
     <button type="button" class="pill solid" data-loop="${c.loop.id}">Watch it turn</button>`
