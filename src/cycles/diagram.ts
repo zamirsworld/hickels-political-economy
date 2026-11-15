@@ -149,7 +149,11 @@ export class Cycle {
 
     const regions = new Set(this.ring.map((nd) => nd.region))
     const split = regions.has('south')
-    const backdrop = split
+    // a loop that never leaves the South gets the whole backdrop
+    const backdrop = split && !regions.has('north')
+      ? `<rect class="half south-half" x="0" y="0" width="640" height="640" rx="24"/>
+        <text class="side-label south" x="320" y="34" text-anchor="middle">GLOBAL SOUTH</text>`
+      : split
       ? `<rect class="half north-half" x="0" y="0" width="320" height="640" rx="24"/>
         <rect class="half south-half" x="320" y="0" width="320" height="640" rx="24"/>
         <line class="divider" x1="320" y1="40" x2="320" y2="600"/>

@@ -2,15 +2,17 @@
 import type { CycleScript } from '../model.ts'
 import { CYCLE_CARDS } from '../registry.ts'
 import { consent } from './consent.ts'
+import { cost } from './cost.ts'
 import { debt } from './debt.ts'
 import { discipline } from './discipline.ts'
 import { drain } from './drain.ts'
 import { fossil } from './fossil.ts'
 import { massParty } from './mass-party.ts'
+import { sovereign } from './sovereign.ts'
 import { unequal } from './unequal.ts'
 import { war } from './war.ts'
 
-export const CYCLES: CycleScript[] = [drain, debt, unequal, fossil, discipline, war, consent, massParty]
+export const CYCLES: CycleScript[] = [drain, debt, unequal, cost, fossil, discipline, war, consent, massParty, sovereign]
 
 // the light registry (used by the map) must name the same cycles
 for (const c of CYCLES) {

@@ -31,6 +31,9 @@ const PLAIN_NODES: Record<string, string> = {
   public_finance: 'Public money',
   necessities: 'Basic needs',
   south_public_finance: 'Southern public money',
+  south_workers: 'Workers in the South',
+  south_nature: 'Southern land & resources',
+  ecosystem: 'Nature & the atmosphere',
 }
 const PLAIN_FLOWS: Record<string, string> = {
   capture: 'takes hold of the government',
@@ -55,6 +58,12 @@ const PLAIN_FLOWS: Record<string, string> = {
   pf_renewables: "builds renewables",
   won_by_struggle: "gains won by struggle",
   frontier: "takes nature with no rules",
+  south_currency: 'pays in its own money',
+  spf_hire: 'hires people to build',
+  south_development: 'builds for its own people',
+  emissions_fossil: 'pollution from burning',
+  degradation_south: 'damage lands on poorer countries',
+  drain_nature: 'resources drained north',
 }
 /** Plain explanations for arrows that can appear as wrong answers; the meaning follows the data's description. */
 const PLAIN_DESCS: Record<string, string> = {
@@ -81,6 +90,11 @@ const PLAIN_DESCS: Record<string, string> = {
   military_budget: "Public money goes into weapons, which passes it to the billionaires who own the arms industry.",
   won_by_struggle: "Public services, the weekend and workers’ right to vote had to be fought for against the interests of the owners. Progress in rich countries began with workers’ and socialist movements in the late 1800s.",
   pf_jobs: "Public money hires people directly for useful work society needs.",
+  kept_cheap: 'Blocked from developing on their own terms, poorer countries are held in the role of cheap suppliers: they have to send out far more work and resources than they get back.',
+  supply_price: 'When poorer countries make and use more for themselves, their resources stop being cheap. Prices rise and profits in rich countries are squeezed, which Hickel says is what happened in the 1970s.',
+  climate_south: 'The regions most exposed to climate impacts are overwhelmingly in poorer countries, where deaths from heat are not even counted.',
+  heat_workers: 'Inside rich countries too, heat waves and other climate impacts hit working people hardest.',
+  extraction: 'Growth keeps pulling more materials and energy out of nature.',
   bargaining: "With housing, healthcare and the basics guaranteed, workers can refuse exploitation, and the economy no longer needs endless growth to stay stable.",
 }
 export const label = (id: string) => PLAIN_NODES[id] ?? nodeById.get(id)?.label ?? id

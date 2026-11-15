@@ -265,7 +265,8 @@ function switchSummary(right: string[]) {
   const extra = [...picks].filter((id) => !right.includes(id)).length
   const verb = VIRTUOUS ? 'that the cycle needs' : 'that break it'
   const head = found === right.length && !extra ? 'All right!' : found === right.length ? 'Close.' : 'Not quite.'
-  return `<p class="switch-summary"><b>${head}</b> You found ${found} of the ${right.length} switches ${verb}${
+  const one = VIRTUOUS ? 'the one switch the cycle needs' : 'the one switch that breaks it'
+  return `<p class="switch-summary"><b>${head}</b> ${right.length === 1 ? `You ${found ? 'found' : 'missed'} ${one}` : `You found ${found} of the ${right.length} switches ${verb}`}${
     extra ? `, and picked ${extra} that ${extra === 1 ? 'doesn’t' : 'don’t'} ${VIRTUOUS ? 'matter for it' : 'affect it'}` : ''
   }. Click any switch to see its effect on the circle.</p>`
 }

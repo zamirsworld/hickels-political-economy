@@ -5,7 +5,7 @@ An interactive, cited map of the political economy Jason Hickel describes across
 **Live site:** https://zamirsworld.github.io/hickels-political-economy/
 
 - **The map** (`/`): capital, the state, labor, empire and the ecosystem as boxes and arrows, with feedback loops, seven on/off switches and a ripple of vicious ↔ virtuous conditions.
-- **Guided cycles** (`/cycles/`): eight major cycles told step by step, either as a story or as a guess-and-reveal game, written for readers new to the subject.
+- **Guided cycles** (`/cycles/`): ten major cycles told step by step, either as a story or as a guess-and-reveal game, written for readers new to the subject.
 - **About** (`/about/`): the talks, how claims are sourced, what isn't Hickel's, and how each figure was checked.
 
 ## Sources
