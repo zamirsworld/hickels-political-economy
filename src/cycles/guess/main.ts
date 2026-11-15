@@ -62,7 +62,7 @@ let guesses: Record<string, number> = {} // estimates and choices
 const app = document.getElementById('app')!
 app.innerHTML = `
   <header class="bar">
-    <a class="sub" href="../">← all cycles</a>
+    <a class="sub" href="../" aria-label="All cycles">← <span class="long">all </span>cycles</a>
     ${pickerHtml(CYCLES, c)}
     <span class="sub mode">guess as you go · <a href="../scroll/?c=${c.slug}">read it as a story instead</a></span>
     <span class="grow"></span>
@@ -83,6 +83,9 @@ document.getElementById('pick-cycle')!.addEventListener('change', (e) => {
 const cycle = new Cycle(app.querySelector('.dia')!, c, { progressive: true })
 const inner = app.querySelector<HTMLElement>('.card-inner')!
 const next = document.getElementById('next') as HTMLButtonElement
+/** Bring what just appeared into view: on a phone the card scrolls under the ring, so feedback can land out of sight. */
+const show = (sel: string) =>
+  inner.querySelector(sel)?.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
 const back = document.getElementById('back') as HTMLButtonElement
 const screen = () => PLAN[pos]
 const record = (key: string, r: Result) => {
@@ -91,7 +94,8 @@ const record = (key: string, r: Result) => {
 }
 function updateScore() {
   const all = [...results.values()]
-  app.querySelector('.run-score')!.textContent = all.length ? `${all.filter((r) => r.ok).length} of ${all.length} right first time` : ''
+  // phones show only "✓ 2 of 8" (.long is hidden there)
+  app.querySelector('.run-score')!.innerHTML = all.length ? `<span class="tick" aria-hidden="true">✓ </span>${all.filter((r) => r.ok).length} of ${all.length}<span class="long"> right first time</span>` : ''
 }
 
 // --- question bodies -------------------------------------------------------------------------------------------
@@ -417,6 +421,7 @@ function pick(id: string) {
       ${loops.length ? `<p class="muted small">It’s part of another cycle: ${loops.map((l) => `<b>${esc(l)}</b>`).join(', ')}.</p>` : ''}`
   }
   inner.querySelector('.feedback')!.innerHTML = `<div class="fb">${html}<p class="muted small">Have another go.</p></div>`
+  show('.feedback')
 }
 
 function lockGuess() {
@@ -428,6 +433,7 @@ function lockGuess() {
   record(e.id, { label: e.label, ok: estimateOk(e, g), detail: `you said ${fmt(g)}${e.unit}; it’s ${answerText(e)} (${within})` })
   inner.innerHTML = estimateHtml(e)
   next.hidden = false
+  show('.text')
 }
 
 function answerChoice(k: number) {
@@ -437,6 +443,7 @@ function answerChoice(k: number) {
   record(x.id, { label: x.label, ok: k === x.answer, detail: `you said ${x.options[k]}; it’s ${x.options[x.answer]}` })
   inner.innerHTML = choiceHtml(x)
   next.hidden = false
+  show('.text')
 }
 
 function moveEvent(id: string, by: number) {
@@ -540,6 +547,7 @@ function checkLevers() {
   })
   inner.innerHTML = switchesHtml(true)
   cycle.setClosed(effects.flatMap((x) => x.flows.map((f) => f.id)))
+  show('.switch-summary')
   next.hidden = false
 }
 

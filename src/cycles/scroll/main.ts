@@ -16,7 +16,7 @@ const app = document.getElementById('app')!
 app.innerHTML = `
   <div class="progress"><i></i></div>
   <header class="bar">
-    <a class="sub" href="../">← all cycles</a>
+    <a class="sub" href="../" aria-label="All cycles">← <span class="long">all </span>cycles</a>
     ${pickerHtml(CYCLES, c)}
     <span class="sub mode">the story · <a href="../guess/?c=${c.slug}">guess as you go instead</a></span>
     <span class="grow"></span>

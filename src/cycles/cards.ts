@@ -82,7 +82,10 @@ export function countUp(root: ParentNode) {
 export function themeToggle(btn: HTMLButtonElement) {
   const set = (t: string) => {
     document.documentElement.dataset.theme = t
-    btn.textContent = t === 'orrery' ? 'Paper theme' : 'Night theme'
+    // "theme" is dropped on phones (.long), so the name stays for screen readers
+    const name = t === 'orrery' ? 'Paper' : 'Night'
+    btn.innerHTML = `${name}<span class="long"> theme</span>`
+    btn.setAttribute('aria-label', `${name} theme`)
     try {
       localStorage.setItem('proto-theme', t)
     } catch {

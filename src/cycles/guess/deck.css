@@ -58,17 +58,33 @@
   color: var(--ink-2);
   font-size: 0.85rem;
 }
+/* Narrow screens: the ring on top, no taller than it can be drawn at this width; the question scrolls in what
+   is left, and Back / Next stay pinned at the bottom of the screen. */
 @media (max-width: 860px) {
   #app {
-    height: auto;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
   }
   .deck {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
   }
   .dia {
-    height: 62vh;
-    padding: 10px 6px 40px;
+    height: min(40vh, 86.5vw + 34px);
+    height: min(40dvh, 86.5vw + 34px);
+    padding: 4px 6px 30px;
+  }
+  .dia .kinds {
+    left: 12px;
+    bottom: 8px;
+  }
+  .card-inner {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+  .nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .card {
     border-left: none;
@@ -81,5 +97,19 @@
   }
   .bar .sub.mode {
     display: none;
+  }
+}
+/* a phone on its side: too short to stack, so the ring and the question sit side by side again */
+@media (max-width: 860px) and (orientation: landscape) and (max-height: 520px) {
+  .deck {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .dia {
+    height: auto;
+  }
+  .card {
+    border-top: none;
+    border-left: 1px solid var(--rule);
   }
 }

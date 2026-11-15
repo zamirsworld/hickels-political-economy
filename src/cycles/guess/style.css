@@ -3,6 +3,9 @@
   font-size: 0.82rem;
   color: var(--ink-2);
 }
+.run-score .tick {
+  display: none; /* phones only, where "right first time" is dropped */
+}
 .step-title.ask {
   font-size: clamp(1.5rem, 2.2vw, 2.1rem);
 }
@@ -235,8 +238,28 @@
   color: var(--ink-2);
 }
 @media (max-width: 600px) {
-  .nav .keys {
-    display: none;
+  .nav .keys,
+  .opt .key {
+    display: none; /* no number keys on a phone */
+  }
+  .run-score .tick {
+    display: inline;
+  }
+  /* tighter type, so more of the options fit under the ring */
+  .step-title {
+    font-size: 1.45rem;
+    margin-bottom: 10px;
+  }
+  .step-title.ask {
+    font-size: 1.25rem;
+  }
+  .hint {
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+  .opt {
+    padding: 9px 12px;
+    gap: 10px;
   }
   .gbar {
     grid-template-columns: 90px 1fr 44px;

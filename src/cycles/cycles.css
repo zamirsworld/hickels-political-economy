@@ -667,8 +667,25 @@ body {
     flex: 1;
   }
   .bar .grow,
-  .bar .sub:not(:first-child) {
+  .bar .sub:not(:first-child),
+  .bar .long {
     display: none;
+  }
+  /* the cycle picker takes the room that is left and shortens its own text; the buttons keep theirs */
+  .bar .picker {
+    flex: 1;
+    min-width: 0;
+  }
+  .bar .picker select {
+    width: 100%;
+    max-width: none;
+    font-size: 0.95rem;
+    text-overflow: ellipsis;
+  }
+  .bar .ghost,
+  .bar .run-score {
+    flex: none;
+    white-space: nowrap;
   }
 }
 
