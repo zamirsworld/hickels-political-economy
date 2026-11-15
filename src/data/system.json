@@ -8673,14 +8673,14 @@
     {
       "id": "anticolonial_gains",
       "label": "Anti-colonial movements bring progress",
-      "year": "early 20th century",
-      "sortYear": 1920,
+      "year": "mid-20th century",
+      "sortYear": 1950,
       "era": "liberation",
       "region": "south",
       "lenses": [
         "L4"
       ],
-      "description": "Social progress in the periphery began as anti-colonial movements regained control over land and resources and organized production around national development, housing and public services.",
+      "description": "Social progress in the periphery began as anti-colonial movements regained control over land and resources and organized production around national development, housing and public services. In the talk Hickel says the early 20th century; the date here follows his 2023 paper with Dylan Sullivan, which says the mid-20th century.",
       "sources": [
         {
           "ep": "TEA",
@@ -11997,7 +11997,7 @@
       ],
       "citation": "Latana & Alliance of Democracies (2023). Democracy Perception Index 2023. Survey of 53,970 online-connected respondents in 53 countries, 7 February to 27 March 2023.",
       "url": "https://6389062.fs1.hubspotusercontent-na1.net/hubfs/6389062/Canva%20images/Democracy%20Perception%20Index%202023.pdf",
-      "caveat": "Not a Hickel source; he cites the index at TEA 13:10. An online poll of about 1,000 people per country, weighted by age, gender and education; average margin of error ±3.1 points. The democracy question is a 0–10 slider ('How democratic do you think it is?'). The report prints no cut-off for 'democratic'; Just Security describes it as a rating of 7 or higher. 'Real democracy' is Hickel's phrase, and the report's is 'actually democratic'. His own 2023 US figure on the government serving the majority loses a word in the auto-captions ('less than a …'), so it can only be compared with the ~42% here if that word was 'half'.",
+      "caveat": "Not a Hickel source; he cites the index at TEA 13:10. An online poll of about 1,000 people per country, weighted by age, gender and education; average margin of error ±3.1 points. The democracy question is a 0–10 slider ('How democratic do you think it is?'). The report prints no cut-off for 'democratic'; Just Security describes it as a rating of 7 or higher. 'Real democracy' is Hickel's phrase, and the report's is 'actually democratic'. His own 2023 US figure is that less than half believe the government serves the majority (TEA 13:23), which matches the ~42% here. The auto-captions drop the word 'half'; it was checked by listening.",
       "verification": "full-text",
       "location": "Report pp. 9–10 (question, plotted values), p. 12 (58%, chart), p. 60 (method), p. 63 (questionnaire). The 54%, 56% and 49% are plotted dots with no printed labels: read from the chart, consistent with the printed deficits and with Just Security (30 June 2023). Only these pages were checked.",
       "author": "other"
@@ -12112,14 +12112,14 @@
       ],
       "citation": "Zucman, G. (2026). We Need to Tax Billionaires. Basic Books UK (Hachette). English edition of Les milliardaires ne paient pas d'impôt sur le revenu (Le Seuil).",
       "url": "https://www.hachette.co.uk/titles/gabriel-zucman/we-need-to-tax-billionaires/9781399839600/",
-      "caveat": "Not a Hickel source. Hickel gives no title (TEA 57:48, 58:59), so matching his 'new little book' to this one is our identification. A 2% minimum wealth tax is a different and far lower measure than the 100% maximum income Hickel argues for on this arrow. A reviewer notes the book argues mainly from France.",
+      "caveat": "Not a Hickel source. Hickel gives no title (TEA 57:48, 58:59): he calls it Gabriel Zucman's 'new little book' on taxing billionaires, which we identify as this one. A 2% minimum wealth tax is a different and far lower measure than the 100% maximum income Hickel argues for on this arrow. A reviewer notes the book argues mainly from France.",
       "verification": "secondary",
       "location": "The book itself was not read. Numbers from a UC Berkeley Letters & Science interview with Zucman (18 June 2026); details from Hachette's page, an excerpt in Zeteo (25 August 2026) and a review (The Earthbound Report, 7 July 2026).",
       "author": "other"
     },
     {
       "id": "F19",
-      "label": "A cap on top incomes: the closest match to the book Hickel names",
+      "label": "A cap on top incomes: the book Hickel recommends",
       "values": [
         {
           "value": "a cap",
@@ -12147,7 +12147,7 @@
       ],
       "citation": "Pizzigati, S. (2018). The Case for a Maximum Wage. Polity.",
       "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/the-case-for-a-maximum-wage-978-1-5095-2492-1",
-      "caveat": "Not a Hickel source, and not confirmed as the book he means. He names 'The Case for Maximum Income' (TEA 55:58, 58:56); searches found no book with that title. This is the closest title, and the identification is ours.",
+      "caveat": "Not a Hickel source. He recommends it at TEA 55:58 and 58:56, where the auto-captions give the title as 'The Case for Maximum Income'. No book has that title; we identify it as Sam Pizzigati's The Case for a Maximum Wage, which argues for a cap on personal income.",
       "verification": "secondary",
       "location": "Publisher listing (contents, description), an excerpt of chapter 1 on Perlego, and Alan Cottey's review in Prometheus 36(1), March 2020. The full book was not read. A further search on 2026-11-15 again found no book titled 'The Case for (a) Maximum Income'.",
       "author": "other"

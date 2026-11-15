@@ -114,7 +114,7 @@ export const massParty: CycleScript = {
       kicker: 'A quick one about history',
       prompt: 'Put these four in order, earliest at the top.',
       hint: 'Gains won by people organizing, in rich and poorer countries, from Hickel’s talks.',
-      events: ['china_revolution', 'core_labor_gains', 'nieo_1974', 'anticolonial_gains'].map(event),
+      events: ['russian_revolution', 'core_labor_gains', 'nieo_1974', 'anticolonial_gains'].map(event),
     },
     {
       k: 'choice',

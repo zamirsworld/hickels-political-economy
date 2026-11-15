@@ -1225,11 +1225,14 @@ details[open] summary {
 .rp-arrow {
   color: var(--ink-2);
 }
+/* bottom right: the one corner of the outside view with no circle in it */
 .toast {
   position: absolute;
   right: 14px;
-  top: 14px;
-  width: min(360px, calc(100% - 28px));
+  bottom: 14px;
+  width: clamp(220px, 31%, 320px); /* narrow enough to sit beside the Environment circle */
+  max-height: calc(100% - 28px);
+  overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: var(--radius);

@@ -25,7 +25,7 @@ export const debt: CycleScript = {
       kicker: 'Step 1 · From the North',
       title: 'The Volcker shock',
       body: 'In 1980 the US central bank pushed interest rates above 20%. It broke the power of unions in the US and set off a debt crisis across poorer countries.',
-      why: 'Debt became the lever. Thomas Sankara, the leader of Burkina Faso, saw debt as a tool of imperial control, and called for it to be cancelled together.',
+      why: 'Debt became the lever. Thomas Sankara, the leader of Burkina Faso, saw debt as a tool of imperial control, and called on countries across the South, especially in Africa, to cancel their debts together.',
       prompt: 'Poorer countries have borrowed money to develop. What move by capital turns those loans into a trap?',
       sources: src.flow('volcker_debt', 'BERGEN 33:18', 'BF1 1:11:49'),
     },

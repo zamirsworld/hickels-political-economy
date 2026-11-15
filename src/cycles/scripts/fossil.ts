@@ -132,7 +132,7 @@ export const fossil: CycleScript = {
       fig: fig('F7'),
     },
   ],
-  summary: 'Fossil fuels pay three to four times more than renewables, so their profits keep paying for more fossil fuels, even though renewables are cheaper and the planet is burning.',
+  summary: 'Fossil fuels pay three to four times more than renewables, so their profits keep paying for more fossil fuels, even though renewables are cheaper and, as Hickel puts it, the world is burning around us.',
   switchesText:
     'Only one switch touches this cycle, and it stops all three steps: when people decide investment together through public money, profit no longer picks fossil fuels. Using less energy and materials matters for the climate too, but on the map it stops the pollution, not this cycle.',
 }
