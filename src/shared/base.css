@@ -1332,6 +1332,10 @@ details[open] summary {
   margin: 3px 0;
   font-size: 0.88rem;
 }
+.fig-check {
+  font-style: italic;
+  margin: 4px 0;
+}
 .fig-cite {
   color: var(--ink-2);
 }

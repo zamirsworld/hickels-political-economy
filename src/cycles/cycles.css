@@ -491,6 +491,13 @@ body {
   font-size: 0.72rem;
   color: var(--ink-2);
 }
+.fig-check {
+  display: block;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
 .timeline {
   display: flex;
   flex-wrap: wrap;
@@ -757,4 +764,32 @@ body {
 
 .bar > a.sub {
   white-space: nowrap;
+}
+
+/* a step that other cycles share, and the line that frames a question asked before the intro */
+.shared-step {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.shared-step b {
+  color: var(--ink);
+}
+.frame {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.92rem;
+  color: var(--ink-2);
+}
+.frame b {
+  color: var(--ink);
+}
+.cy-meta .done {
+  font-weight: 700;
+  color: var(--k-open);
 }

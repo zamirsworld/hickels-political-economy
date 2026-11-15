@@ -2,8 +2,9 @@
 // screen, legend) and the side panel. src/map supplies the plane model and the drawing.
 import './base.css'
 import raw from '../data/system.json'
-import { activeView, configFor, LEVER_ORDER, presetOf, PRESETS, type LeverConfig } from '../model/levers.ts'
+import { activeView, configFor, decodeConfig, encodeConfig, LEVER_ORDER, presetOf, PRESETS, type LeverConfig } from '../model/levers.ts'
 import { conditionValues, level, rippleSteps } from '../model/ripple.ts'
+import { checkedHow } from '../model/figures.ts'
 import type { BuiltData, LeverId, ResolvedSource } from '../model/types.ts'
 import { CYCLE_CARDS, WALKTHROUGHS } from '../cycles/registry.ts'
 
@@ -120,6 +121,7 @@ export function figuresHtml(ids: string[] = []) {
       (f) => `<div class="fig-card"><div class="fig-head"><strong>${esc(f.label)}</strong>${f.author === 'other' ? '<span class="badge-out">non-Hickel source</span>' : ''}</div>
         <ul class="fig-values">${f.values.map((v) => `<li><strong>${esc(v.value)}</strong> ${esc(v.unit)}${v.note ? ` <span class="muted">· ${esc(v.note)}</span>` : ''}</li>`).join('')}</ul>
         <p class="small muted">${esc(f.caveat)}</p>
+        <p class="small muted fig-check">${esc(checkedHow(f))}</p>
         <a class="fig-cite small" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.citation)}</a></div>`,
     )
     .join('')
@@ -189,7 +191,7 @@ export class App {
     const app = document.getElementById('app')!
     app.innerHTML = `
       <header class="top">
-        <div class="brand"><a class="brand-mark" href="./" title="The Political Economy Map" aria-label="Home"></a><div><div class="brand-title">The Political Economy Map</div><div class="brand-sub">${esc(opts.subtitle)} · <a href="./cycles/">guided cycles</a></div></div></div>
+        <div class="brand"><a class="brand-mark" href="./" title="The Political Economy Map" aria-label="Home"></a><div><div class="brand-title">The Political Economy Map</div><div class="brand-sub">${esc(opts.subtitle)} · <a href="./cycles/">guided cycles</a> · <a href="./about/">about</a></div></div></div>
         <div class="top-controls">
           <div class="seg" role="group" aria-label="Visual theme" id="themes"></div>
           <div class="seg" role="group" aria-label="World" id="worlds"></div>
@@ -263,6 +265,48 @@ export class App {
     this.map.update(this)
     this.panel.innerHTML = this.map.panel ? this.map.panel(this) : this.renderPanel()
     this.renderChrome()
+    this.writeHash()
+  }
+
+  /** Keep the view in the address (box, arrow, cycle, region, switches), so it can be shared or linked to. */
+  private writeHash() {
+    if (!this.started) return
+    const params = new URLSearchParams(location.hash.slice(1))
+    for (const k of ['box', 'arrow', 'loop', 'step', 'region', 'crossing', 'alt', 'lv']) params.delete(k)
+    const m = this.mode
+    if (m.kind === 'node') params.set('box', m.node)
+    else if (m.kind === 'flow') params.set('arrow', m.flow)
+    else if (m.kind === 'loop') {
+      params.set('loop', m.loop)
+      if (m.step) params.set('step', String(m.step + 1))
+    } else if (m.kind === 'plane') params.set('region', m.plane)
+    else if (m.kind === 'gate') params.set('crossing', m.gate)
+    const world = encodeConfig(this.cfg) // "", "alt" or "lv=0110001"
+    if (world === 'alt') params.set('alt', '1')
+    else if (world) params.set('lv', world.slice(3))
+    const hash = params.toString()
+    history.replaceState(null, '', hash ? `#${hash}` : location.pathname + location.search)
+  }
+  /** Open the view a link asks for; ids the model doesn't know are ignored. True if the link named a view. */
+  openFromHash() {
+    const params = new URLSearchParams(location.hash.slice(1))
+    const [box, arrow, loop, region, crossing] = ['box', 'arrow', 'loop', 'region', 'crossing'].map((k) => params.get(k))
+    let m: Mode | null = null
+    if (box && nodeById.has(box)) m = { kind: 'node', node: box }
+    else if (arrow && flowById.has(arrow)) m = { kind: 'flow', flow: arrow }
+    else if (loop && loopById.has(loop)) {
+      const last = loopById.get(loop)!.path.length - 1
+      m = { kind: 'loop', loop, step: Math.min(last, Math.max(0, (Number(params.get('step')) || 1) - 1)) }
+    } else if (region && this.model.planes.some((p) => p.id === region)) m = { kind: 'plane', plane: region as PlaneId }
+    else if (crossing && this.model.gates.some((g) => g.key === crossing)) m = { kind: 'gate', gate: crossing }
+    const cfg = decodeConfig(params)
+    const switched = LEVER_ORDER.some((id) => cfg[id] !== this.cfg[id])
+    if (!m && !switched) return false
+    if (switched) this.setWorld(cfg)
+    this.hideStart()
+    if (m) this.go(m)
+    else this.update()
+    return true
   }
 
   go(m: Mode, opts: { via?: string } = {}) {

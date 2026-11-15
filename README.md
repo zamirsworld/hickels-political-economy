@@ -6,6 +6,7 @@ An interactive, cited map of the political economy Jason Hickel describes across
 
 - **The map** (`/`): capital, the state, labor, empire and the ecosystem as boxes and arrows, with feedback loops, seven on/off switches and a ripple of vicious ↔ virtuous conditions.
 - **Guided cycles** (`/cycles/`): eight major cycles told step by step, either as a story or as a guess-and-reveal game, written for readers new to the subject.
+- **About** (`/about/`): the talks, how claims are sourced, what isn't Hickel's, and how each figure was checked.
 
 ## Sources
 
@@ -33,7 +34,9 @@ npm install
 npm run dev
 ```
 
-Code: the map in `src/map/` and `src/shared/`; the guided cycles in `src/cycles/` (pages in `cycles/`).
+Code: the map in `src/map/` and `src/shared/`; the guided cycles in `src/cycles/` (pages in `cycles/`); the About page in `src/about/`.
+
+A map view can be linked to: the address keeps the open box, arrow, cycle or region and the switches (for example `#loop=loop_imperial` or `#box=capital&alt=1`).
 
 ## Data
 

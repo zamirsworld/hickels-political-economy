@@ -21,11 +21,12 @@ export function introHtml(c: CycleScript) {
 export const routeHtml = (s: Pick<Step, 'flow'>) =>
   `<div class="route kind-${s.flow.kind}"><span class="kind-tag">${esc(s.flow.kind)}</span><b>${esc(label(s.flow.from))}</b> → <b>${esc(label(s.flow.to))}</b></div>`
 
-export function stepHtml(s: Step, opts: { route?: boolean } = {}) {
+export function stepHtml(s: Step, opts: { route?: boolean; note?: string } = {}) {
   return `<div class="kind-${s.flow.kind}">
     <div class="kicker">${esc(s.kicker)}</div>
     <h2 class="step-title">${esc(s.title)}</h2>
     ${opts.route === false ? '' : routeHtml(s)}
+    ${opts.note ?? ''}
     <p class="text">${esc(s.body)}</p>
     ${s.examples ? `<ol class="timeline">${s.examples.map((e, i) => `<li style="animation-delay:${0.15 + i * 0.12}s" title="${esc(e.description)}"><b>${esc(e.year)}</b>${esc(e.label.replace(/^Coup against |^Assassination of /, ''))}</li>`).join('')}</ol>` : ''}
     ${s.stats ? stats(s.stats) : ''}

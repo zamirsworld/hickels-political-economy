@@ -13,6 +13,7 @@ import {
   askByBox, boxChoicesFor, choicesFor, esc, figCite, flowDesc, flowLabel, label, leverText, leverEffects, loopsOf, opensWith, ringOf, sourceChips, virtuous,
   type Choice, type Estimate, type Extra, type Flow, type Order, type Placement,
 } from '../model.ts'
+import { mapHref, markDone, sharedNote } from '../progress.ts'
 import { CYCLES, current } from '../scripts/index.ts'
 
 const c = current()
@@ -100,6 +101,8 @@ function updateScore() {
 
 // --- question bodies -------------------------------------------------------------------------------------------
 const kicker = (s: string) => `<div class="kicker">${esc(s)}</div>`
+/** A question asked before the intro says first which cycle this is and what it is about. */
+const frame = (x: Extra) => (x.at === 'start' ? `<p class="frame"><b>${esc(c.title)}.</b> ${esc(c.blurb)}</p>` : '')
 const qNum = (i: number) => `Step ${i + 1} of ${N}`
 const altNote = (f: Flow) =>
   opensWith(f).length
@@ -123,7 +126,7 @@ function estimateHtml(e: Estimate) {
   const w = (v: number) => Math.max(0, Math.min(100, ((v - e.min) / (e.max - e.min)) * 100))
   const bar = (cls: string, name: string, v: number, text: string) =>
     `<div class="gbar ${cls}"><span class="gbar-name">${esc(name)}</span><span class="gbar-track"><i style="--w:${w(v)}%"></i></span><b>${esc(text)}</b></div>`
-  return `${kicker(e.kicker ?? 'Guess the number')}
+  return `${frame(e)}${kicker(e.kicker ?? 'Guess the number')}
     <h2 class="step-title ask">${esc(e.prompt)}</h2>
     <div class="slider-row"><input type="range" min="${e.min}" max="${e.max}" step="${e.step ?? 1}" value="${g}" id="guess" aria-label="Your guess" ${done ? 'disabled' : ''}/><output for="guess">${fmt(g)}${esc(e.unit)}</output></div>
     ${
@@ -136,7 +139,7 @@ function estimateHtml(e: Estimate) {
 
 function choiceHtml(x: Choice) {
   const answered = x.id in guesses ? guesses[x.id] : null
-  return `${kicker(x.kicker)}
+  return `${frame(x)}${kicker(x.kicker)}
     <h2 class="step-title ask">${esc(x.prompt)}</h2>
     ${x.hint ? `<p class="hint">${esc(x.hint)}</p>` : ''}
     <div class="opts mag">${x.options
@@ -158,7 +161,7 @@ function orderHtml(x: Order, checked: boolean) {
   const ids = checked ? right : arrangement
   const byId = new Map(x.events.map((e) => [e.id, e]))
   const n = ids.length
-  return `${kicker(x.kicker)}
+  return `${frame(x)}${kicker(x.kicker)}
     <h2 class="step-title ask">${esc(x.prompt)}</h2>
     <p class="hint">${checked ? 'Here is the right order.' : `${esc(x.hint)} Drag the rows, or use the arrows, then check.`}</p>
     <ol class="reorder${checked ? ' checked' : ''}" aria-label="Events, earliest at the top">${ids
@@ -278,7 +281,8 @@ function scoreHtml() {
     <p class="end-links"><span class="muted small">Try another cycle:</span> ${others
       .slice(0, 3)
       .map((x) => `<a class="pill quiet" href="?c=${x.slug}">${esc(x.title)}</a>`)
-      .join(' ')} <a class="pill quiet" href="../">All cycles</a></p>`
+      .join(' ')} <a class="pill quiet" href="../">All cycles</a></p>
+    <p class="end-links"><a class="pill quiet" href="${mapHref(c)}">See this cycle on the map</a></p>`
 }
 
 // --- rendering ---------------------------------------------------------------------------------------------------
@@ -333,7 +337,7 @@ function render() {
     }
     case 'reveal': {
       const ok = results.get(`step${s.i}`)?.ok
-      inner.innerHTML = `<div class="verdict ${ok ? 'good' : ''}">${ok ? 'Right first time.' : 'Got there.'}</div>${stepHtml(STEPS[s.i])}`
+      inner.innerHTML = `<div class="verdict ${ok ? 'good' : ''}">${ok ? 'Right first time.' : 'Got there.'}</div>${stepHtml(STEPS[s.i], { note: sharedNote(c, STEPS[s.i], 'guess') })}`
       cycle.set(s.i)
       next.textContent = s.i === N - 1 ? 'Close the circle →' : 'Next step →'
       count = `${s.i + 1} / ${N}`
@@ -359,6 +363,7 @@ function render() {
       break
     case 'score':
       inner.innerHTML = scoreHtml()
+      markDone(c.slug)
       cycle.set(N)
       next.textContent = 'Play again'
   }

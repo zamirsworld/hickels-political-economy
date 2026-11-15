@@ -2,6 +2,7 @@
 // the built data by id (so timestamps stay verified by `npm run data`), and the question logic every cycle uses.
 // Each cycle's own words live in scripts/<slug>.ts.
 import raw from '../data/system.json'
+import { checkedHow } from '../model/figures.ts'
 import type { BuiltData, LeverId, ResolvedSource } from '../model/types.ts'
 
 export const data = raw as unknown as BuiltData
@@ -323,6 +324,6 @@ export const sourceChips = (ss: ResolvedSource[]) =>
         : '',
     )
     .join('')}</div>`
-/** A figure's citation; figures not by Hickel carry a badge. */
+/** A figure's citation and how it was checked; figures not by Hickel carry a badge. */
 export const figCite = (f: Figure) =>
-  `<a class="fig-cite" href="${esc(f.url)}" target="_blank" rel="noopener" title="${esc(f.caveat)}">${f.author === 'other' ? '<span class="badge-other">non-Hickel source</span> ' : ''}${esc(f.citation)}</a>`
+  `<a class="fig-cite" href="${esc(f.url)}" target="_blank" rel="noopener" title="${esc(f.caveat)}">${f.author === 'other' ? '<span class="badge-other">non-Hickel source</span> ' : ''}${esc(f.citation)}</a><span class="fig-check">${esc(checkedHow(f))}</span>`

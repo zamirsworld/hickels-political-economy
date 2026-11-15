@@ -6,6 +6,7 @@ import '../cycles.css'
 import './style.css'
 import { breakHtml, closedHtml, countUp, introHtml, pickerHtml, stepHtml, themeToggle } from '../cards.ts'
 import { Cycle, legendHtml } from '../diagram.ts'
+import { mapHref, markDone, sharedNote } from '../progress.ts'
 import { CYCLES, current } from '../scripts/index.ts'
 
 const c = current()
@@ -29,9 +30,9 @@ app.innerHTML = `
   <div class="story">
     <div class="pin"><div class="dia">${legendHtml(c)}</div></div>
     <div class="steps">
-      ${c.steps.map((s, i) => `<section class="step" data-step="${i}"><div class="panel">${stepHtml(s)}</div></section>`).join('')}
+      ${c.steps.map((s, i) => `<section class="step" data-step="${i}"><div class="panel">${stepHtml(s, { note: sharedNote(c, s, 'scroll') })}</div></section>`).join('')}
       <section class="step" data-step="${N}"><div class="panel">${closedHtml(c, (i) => `data-jump="${i}"`)}</div></section>
-      <section class="step last" data-step="${N + 1}"><div class="panel">${breakHtml(c)}<p class="end-links"><a class="pill quiet" href="../guess/?c=${c.slug}">Now try guessing each step</a><a class="pill quiet" href="../">Pick another cycle</a></p></div></section>
+      <section class="step last" data-step="${N + 1}"><div class="panel">${breakHtml(c)}<p class="end-links"><a class="pill quiet" href="../guess/?c=${c.slug}">Now try guessing each step</a><a class="pill quiet" href="${mapHref(c)}">See this cycle on the map</a><a class="pill quiet" href="../">Pick another cycle</a></p></div></section>
     </div>
   </div>`
 themeToggle(document.getElementById('theme') as HTMLButtonElement)
@@ -49,6 +50,7 @@ function activate(step: number, el: Element) {
   app.querySelectorAll('.step').forEach((s) => s.classList.toggle('active', s === el))
   const sw = app.querySelector<HTMLButtonElement>('[data-break]')!
   cycle.set(Math.min(step, N))
+  if (step === N + 1) markDone(c.slug) // read to the end
   cycle.setBroken(step === N + 1 && sw.getAttribute('aria-checked') === 'true')
   if (!counted.has(el)) {
     counted.add(el)

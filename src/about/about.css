@@ -1,0 +1,48 @@
+/* The About page: a single readable column on top of the gallery page's layout. */
+.about {
+  max-width: 760px;
+}
+.about h2 {
+  font-family: var(--font-display);
+  font-weight: var(--title-weight);
+  font-size: 1.55rem;
+  margin: 34px 0 8px;
+}
+.about p,
+.about li {
+  line-height: 1.55;
+}
+.about a {
+  color: var(--accent);
+}
+.about ul,
+.about ol {
+  padding-left: 20px;
+}
+.about li {
+  margin: 8px 0;
+}
+.about .talks {
+  list-style: none;
+  padding: 0;
+}
+.about .talks li {
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.about .how {
+  margin: 6px 0 0;
+}
+.about .figs li {
+  margin: 12px 0;
+}
+.about .figs .fig-cite {
+  display: block;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+.bar a.sub {
+  text-decoration: none;
+}

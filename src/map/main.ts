@@ -199,6 +199,13 @@ function layoutLabels() {
     const p = pos(g)
     return { x0: p.x - 9, y0: p.y - 9, x1: p.x + 9, y1: p.y + 9 }
   })
+  // the switches drawn above their boxes take room too
+  for (const id of LEVER_ORDER) {
+    const home = model.leverHome[id]
+    if (!('node' in home)) continue
+    const p = pos(home.node)
+    placed.push({ x0: p.x - 13, y0: p.y - 26, x1: p.x + 13, y1: p.y - 10 })
+  }
   for (const g of GLYPHS) {
     const el = glyphEls.get(g)?.querySelector<SVGTextElement>('.st-label')
     if (!el) continue
@@ -214,7 +221,16 @@ function layoutLabels() {
       { x: p.x, y: p.y - gap - h / 2, anchor: 'middle', b: { x0: p.x - w / 2, y0: p.y - gap - h, x1: p.x + w / 2, y1: p.y - gap } },
       { x: p.x - gap, y: p.y, anchor: 'end', b: { x0: p.x - gap - w, y0: p.y - h / 2, x1: p.x - gap, y1: p.y + h / 2 } },
     ]
-    const c = cands.find((q) => !placed.some((b) => hit(b, q.b))) ?? cands[0]
+    // the four corners too, for boxes whose sides are all taken
+    const d = gap * 0.75
+    for (const [sx, sy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
+      const x = p.x + sx * d
+      const y = p.y + sy * (d + h / 2)
+      cands.push({ x, y, anchor: sx > 0 ? 'start' : 'end', b: { x0: sx > 0 ? x : x - w, y0: y - h / 2, x1: sx > 0 ? x + w : x, y1: y + h / 2 } })
+    }
+    // a free spot if there is one; otherwise the spot that covers least of what is already placed
+    const cover = (q: B) => placed.reduce((acc, o) => acc + (hit(o, q) ? (Math.min(o.x1, q.x1) - Math.max(o.x0, q.x0)) * (Math.min(o.y1, q.y1) - Math.max(o.y0, q.y0)) : 0), 0)
+    const c = cands.find((q) => !placed.some((o) => hit(o, q.b))) ?? cands.reduce((best, q) => (cover(q.b) < cover(best.b) ? q : best))
     placed.push(c.b)
     el.setAttribute('x', f1(c.x))
     el.setAttribute('y', f1(c.y))
@@ -329,6 +345,9 @@ const map: MapAdapter = {
 const app = new App({ model, map, subtitle: 'North, South, Environment' })
 new StoryController(app)
 app.renderStart()
+// a link to a view (#box=…, #loop=…, with the switches) opens it instead of the start card
+app.openFromHash()
+addEventListener('hashchange', () => app.openFromHash())
 // a ring of actors zooms the camera onto that group
 document.addEventListener('click', (e) => {
   const g = (e.target as Element).closest<SVGGElement>('[data-group]')

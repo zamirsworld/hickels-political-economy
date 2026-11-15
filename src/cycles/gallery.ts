@@ -5,7 +5,10 @@ import './gallery.css'
 import { themeToggle } from './cards.ts'
 import { miniRing } from './diagram.ts'
 import { esc, loop, virtuous, type CycleScript } from './model.ts'
+import { doneCycles } from './progress.ts'
 import { CYCLES } from './scripts/index.ts'
+
+const DONE = doneCycles()
 
 const groups = [...new Set(CYCLES.map((c) => c.group))]
 
@@ -15,7 +18,7 @@ function card(c: CycleScript) {
   return `<article class="cy-card${virtuous(c) ? ' virtuous' : ''}">
     ${miniRing(c)}
     <div class="cy-body">
-      <div class="cy-meta"><span class="tone">${virtuous(c) ? '↻ a hopeful cycle' : '↻ a vicious cycle'}</span> · ${c.steps.length} steps · ${questions} questions</div>
+      <div class="cy-meta"><span class="tone">${virtuous(c) ? '↻ a hopeful cycle' : '↻ a vicious cycle'}</span> · ${c.steps.length} steps · ${questions} questions${DONE.includes(c.slug) ? ' · <span class="done">✓ done</span>' : ''}</div>
       <h2>${esc(c.title)}</h2>
       <p>${esc(c.blurb)}</p>
       ${folds.length ? `<p class="folds">Also covers: ${folds.map(esc).join(', ')}</p>` : ''}
@@ -46,6 +49,6 @@ app.innerHTML = `
           .join('')}</div></section>`,
       )
       .join('')}
-    <p class="muted small">The shorter loops on the map are told inside these walk-throughs rather than on their own. Every cycle can also be followed on the map.</p>
+    <p class="muted small">The shorter loops on the map are told inside these walk-throughs rather than on their own. Every cycle can also be followed on the map. <a href="../about/">About this site and its sources</a>.</p>
   </main>`
 themeToggle(document.getElementById('theme') as HTMLButtonElement)
