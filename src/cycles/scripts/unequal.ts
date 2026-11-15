@@ -18,7 +18,7 @@ export const unequal: CycleScript = {
     title: 'How can ordinary trade drain poorer countries?',
     body: 'Hickel’s answer: through prices. Because prices are so unequal, value quietly moves from poorer countries to rich ones.',
     sources: src.flow('kept_cheap', 'BERGEN 39:09'),
-    stats: [stat('F4', 0, 'drained from poorer countries through unequal trade, 1960–2018 (in 2011 dollars)')],
+    stats: [stat('F4', 0, 'drained from poorer countries through unequal trade since 1960 (in 2011 dollars)')],
     lead: 'This cycle runs through ownership and prices: from the big companies that own the technology, to governments in poorer countries, their workers, and back.',
   },
   steps: [
@@ -128,7 +128,7 @@ export const unequal: CycleScript = {
       options: ['~3 billion', '~30 billion', '~300 billion', '~3 trillion'],
       small: 'US dollars a year',
       answer: 3,
-      caption: 'About 3 trillion dollars a year by 2005, roughly 9% of everything poorer countries produced. In the 1960s it was about 38 billion a year.',
+      caption: 'Close to 3 trillion dollars a year by the mid-2000s, when it reached about 9% of everything poorer countries produced. In the 1960s it averaged about 38 billion a year.',
       fig: fig('F5'),
     },
   ],

@@ -39,7 +39,8 @@
     "doi": "10.1016/j.gloenvcha.2022.102467",
     "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
     "caveat": "Model-based estimate from environmentally extended input-output analysis. 'Net' means flows South→North minus North→South.",
-    "verification": "abstract",
+    "verification": "full-text",
+    "location": "Results, article p. 5 (the four quantities for 2015); also in the abstract. Read in the published version, from the UAB repository copy (ddd.uab.cat). Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -64,7 +65,8 @@
     "doi": "10.1016/j.gloenvcha.2022.102467",
     "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
     "caveat": "A counterfactual valuation: what the appropriated resources and labor would cost at Northern prices, not money that changed hands.",
-    "verification": "abstract",
+    "verification": "full-text",
+    "location": "Section 4.1 and Table 3, article p. 6 ($10.78 trillion, 23% of the North's GDP). Read in the published version, from the UAB repository copy (ddd.uab.cat). Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -79,7 +81,7 @@
       {
         "value": "30×",
         "unit": "aid received",
-        "note": "the South's losses compared with its aid receipts over the period"
+        "note": "the losses of aid-receiving countries, measured in global average prices, compared with the aid they received over the period"
       }
     ],
     "year": "1990–2015",
@@ -93,8 +95,9 @@
     "citation": "Hickel, J., Dorninger, C., Wieland, H. & Suwandi, I. (2022). Global Environmental Change 73, 102467.",
     "doi": "10.1016/j.gloenvcha.2022.102467",
     "url": "https://doi.org/10.1016/j.gloenvcha.2022.102467",
-    "caveat": "Counterfactual valuation at Northern prices. Not comparable with F4, which uses a different method, base year and period.",
-    "verification": "abstract",
+    "caveat": "Counterfactual valuation at Northern prices. The comparison with aid uses global average prices instead, because aid is counted in market dollars. Not comparable with F4, which uses a different method, base year and period.",
+    "verification": "full-text",
+    "location": "Table 3, article p. 6 ($242.41 trillion, 1990–2015); aid comparison in section 4.3 and Table 5, article p. 8. Read in the published version, from the UAB repository copy (ddd.uab.cat). Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -104,7 +107,7 @@
       {
         "value": "62",
         "unit": "trillion USD",
-        "note": "constant 2011 USD, cumulative 1960–2018"
+        "note": "constant 2011 USD, cumulative since 1960 (the series runs to 2017)"
       },
       {
         "value": "152",
@@ -114,7 +117,7 @@
       {
         "value": "2.2",
         "unit": "trillion USD",
-        "note": "in 2018 alone, Northern prices"
+        "note": "in 2017, the most recent year of data; Northern prices"
       }
     ],
     "year": "1960–2018",
@@ -127,8 +130,9 @@
     "citation": "Hickel, J., Sullivan, D. & Zoomkawala, H. (2021). Plunder in the post-colonial era: Quantifying drain from the global South through unequal exchange, 1960–2018. New Political Economy 26(6), 1030–1047.",
     "doi": "10.1080/13563467.2021.1899153",
     "url": "https://doi.org/10.1080/13563467.2021.1899153",
-    "caveat": "Exchange-rate-differential method (after Köhler). The 'lost growth' figure depends on an assumed growth rate. Not comparable with F3.",
-    "verification": "abstract",
+    "caveat": "Exchange-rate-differential method (after Köhler). The 'lost growth' figure depends on an assumed growth rate. The paper's title says 1960–2018; its series runs to 2017. Not comparable with F3.",
+    "verification": "full-text",
+    "location": "Results and Analysis, article pp. 5 ($2.2 trillion in 2017; $62 trillion) and 8 ($152 trillion); also in the abstract. Read in the published version, from the PDF on the lead author's site. Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -138,26 +142,32 @@
       {
         "value": "~38",
         "unit": "billion USD / year",
-        "note": "1960s, just over 1% of Southern output"
+        "note": "1960s average, constant 2011 USD; just over 1% of Southern output (share read from Fig. 6)"
       },
       {
-        "value": "~3",
+        "value": "almost 3",
         "unit": "trillion USD / year",
-        "note": "by 2005, about 9% of Southern output"
+        "note": "the peak, reached around 2011; about 2.8 trillion by 2005 (years read from Fig. 1)"
+      },
+      {
+        "value": "~9%",
+        "unit": "of Southern output",
+        "note": "the peak share, in the mid-2000s (abstract: 'up to 9%'; year read from Fig. 6)"
       }
     ],
-    "year": "1960s–2005",
+    "year": "1960s–2017",
     "lenses": [
       "L4"
     ],
     "attachTo": [
       "drain_labor"
     ],
-    "citation": "Hickel, J., Sullivan, D. & Zoomkawala, H. (2021), as summarized by the authors in: 'Rich countries drained $152tn from the global South since 1960', Al Jazeera, 6 May 2021.",
+    "citation": "Hickel, J., Sullivan, D. & Zoomkawala, H. (2021). Plunder in the post-colonial era: Quantifying drain from the global South through unequal exchange, 1960–2018. New Political Economy 26(6), 1030–1047. The authors also summarized the trend in Al Jazeera, 6 May 2021.",
     "doi": "10.1080/13563467.2021.1899153",
-    "url": "https://www.aljazeera.com/opinions/2021/5/6/rich-countries-drained-152tn-from-the-global-south-since-1960",
-    "caveat": "Trend figures taken from the authors' op-ed. Check them against the paper's time series before publishing.",
-    "verification": "secondary",
+    "url": "https://doi.org/10.1080/13563467.2021.1899153",
+    "caveat": "The dollar figures and 'up to 9%' are stated in the paper's text. The years, and the share in the 1960s, are read by eye from its charts, so they are approximate. Shares are of Southern GDP at purchasing-power parity.",
+    "verification": "full-text",
+    "location": "Results and Analysis, article p. 5 ($38 billion a year in the 1960s; 'a maximum of almost $3 trillion per year'); Fig. 1 (yearly bars) and Fig. 6 (share of GDP), article pp. 5 and 8. Read in the published version, from the PDF on the lead author's site. Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -231,7 +241,8 @@
     "doi": "10.1016/S2542-5196(20)30196-0",
     "url": "https://doi.org/10.1016/S2542-5196(20)30196-0",
     "caveat": "A share of excess emissions above equal per-capita fair shares (a normative benchmark), not of total emissions. Territorial emissions 1850–1969, consumption-based 1970–2015.",
-    "verification": "abstract",
+    "verification": "full-text",
+    "location": "Findings (summary) and Results, pp. e402–e403 (USA 40%, EU-28 29%, Global North 92%). Read in the published version, from the Zenodo copy. Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -272,7 +283,8 @@
     "doi": "10.1016/S2542-5196(22)00044-4",
     "url": "https://doi.org/10.1016/S2542-5196(22)00044-4",
     "caveat": "A share of excess use above fair shares of a sustainable corridor (a normative benchmark), not of total use. National averages hide inequality within countries.",
-    "verification": "abstract",
+    "verification": "full-text",
+    "location": "Findings (summary) and Results, p. e345 (table 1). The Results give the 25% as 'EU countries and the UK'. Read in the published version, from the White Rose repository copy. Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -330,9 +342,9 @@
     ],
     "citation": "IPCC (2023). Summary for Policymakers. In: Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. IPCC, Geneva.",
     "url": "https://www.ipcc.ch/report/ar6/syr/",
-    "caveat": "Not a Hickel source. Added to support the link 'damage lands on the South', which the interview implies but doesn't state. The IPCC names Africa, Asia, Central and South America, least developed countries and small island states among the most affected regions.",
-    "verification": "secondary",
-    "location": "SPM section A (statement A.2), to be confirmed against the official PDF",
+    "caveat": "Not a Hickel source. Added to support the link 'damage lands on the South', which the interview implies but doesn't state. The IPCC names Africa, Asia, Central and South America, least developed countries, small islands and the Arctic among the places with the largest adverse impacts.",
+    "verification": "full-text",
+    "location": "SPM statements A.2 and A.2.2 (PDF p. 11), in the official PDF from ipcc.ch. Checked 2026-11-15.",
     "author": "other"
   },
   {
@@ -342,12 +354,12 @@
       {
         "value": "81%",
         "unit": "of new utility-scale renewable capacity",
-        "note": "382 of 473 GW added in 2023 cost less than fossil-fuel alternatives"
+        "note": "382 GW of the 473 GW added in 2023 cost less than the weighted-average fossil-fuel alternative"
       },
       {
         "value": "~4 ¢/kWh",
         "unit": "solar PV, global average 2023",
-        "note": "about 56% below fossil-fuel and nuclear options"
+        "note": "USD 0.044/kWh, about 56% below the weighted-average fossil-fuel option"
       }
     ],
     "year": "2023",
@@ -361,8 +373,8 @@
     "citation": "IRENA (2024). Renewable Power Generation Costs in 2023. International Renewable Energy Agency, Abu Dhabi.",
     "url": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Sep/IRENA_Renewable_power_generation_costs_in_2023.pdf",
     "caveat": "Not a Hickel source. Added to support the 'cheaper' claim with a number. Levelized costs exclude grid integration and storage; figures are global averages and vary by country.",
-    "verification": "secondary",
-    "location": "Key findings (IRENA press release, Sept 2024); IRENA's site blocks automated access, so check against the PDF",
+    "verification": "full-text",
+    "location": "Executive summary, pp. 14 and 16 (81%, 382 GW; solar PV at USD 0.044/kWh, 56% lower), in IRENA's own PDF. Checked 2026-11-15.",
     "author": "other"
   },
   {
@@ -391,9 +403,9 @@
     ],
     "citation": "ITU and UNITAR (2024). The Global E-waste Monitor 2024: Highlights. International Telecommunication Union.",
     "url": "https://www.itu.int/en/ITU-D/Environment/Documents/Publications/2024/GEM2024%20Highlights.pdf",
-    "caveat": "Not a Hickel source. 'Uncontrolled' does not necessarily mean illegal. Main exporters are Europe, East Asia and North America; main recipients are Africa, South-east Asia and Central and South America.",
-    "verification": "secondary",
-    "location": "Highlights: key takeaways and key statistics",
+    "caveat": "Not a Hickel source. 'Uncontrolled' does not necessarily mean illegal. Main exporters are Europe, East Asia and North America; main recipients are Africa, South-east Asia and Central and South America. The numbers are from the two-page Highlights; the full Monitor was not read.",
+    "verification": "full-text",
+    "location": "Highlights PDF, p. 1: key takeaways (65 per cent of transboundary movements, 2019) and key statistics (62 billion kg; 22.3 per cent), in ITU's own PDF. Checked 2026-11-15.",
     "author": "other"
   },
   {
@@ -540,7 +552,7 @@
     "url": "https://allianceofdemocracies.org/democracy-perception-index",
     "caveat": "Not a Hickel source; he cites it at TEA 23:01. The 2023 report samples online-connected respondents and warns that where governments shape opinion or restrict speech, this 'can have a strong influence on the survey results', while adding that anonymity may reduce self-censorship. As reported by Newsweek, the 2022 edition also cautions that in authoritarian countries positive answers may reflect different ideas of democracy, approval of the government, or fear of criticizing it, and a Latana consultant said China's figure may partly reflect reluctance to speak out as well as a genuine sense of being served. Hickel says later studies found the answers accurate (TEA 23:52); those studies are not checked here.",
     "verification": "secondary",
-    "location": "2023: report pp. 10, 12, 60 (https://6389062.fs1.hubspotusercontent-na1.net/hubfs/6389062/Canva%20images/Democracy%20Perception%20Index%202023.pdf); the 73% is a plotted dot, the 10% is printed on p. 12. 2022: Newsweek (figures, caution). 2024: Hickel's Substack, passing on the report. The 2022 and 2024 reports were not read.",
+    "location": "2023: report pp. 10, 12, 60 (https://6389062.fs1.hubspotusercontent-na1.net/hubfs/6389062/Canva%20images/Democracy%20Perception%20Index%202023.pdf); the 73% is a plotted dot, the 10% is printed on p. 12. 2022: Newsweek (figures, caution). 2024: Hickel's Substack, passing on the report. The 2022 and 2024 reports were not read. A search on 2026-11-15 did not find the 2022 or 2024 report files.",
     "author": "other"
   },
   {
@@ -580,8 +592,8 @@
     "doi": "10.1016/j.lanplh.2025.101326",
     "url": "https://doi.org/10.1016/j.lanplh.2025.101326",
     "caveat": "Hickel is one of four authors; Dario Krpan leads. Online surveys through Prolific, matched to each population on age, gender and ethnicity, with 5,454 people analysed. Support is for the proposal presented as a whole. Average ratings were about 5 on a 7-point scale, in the 'somewhat support' range, so the majorities are large but not intense. With the proposal explained alongside the 'degrowth' label, support was 74% (UK) and 68% (USA).",
-    "verification": "abstract",
-    "location": "Abstract via Europe PMC and the LSE repository record; citation via Crossref. The publisher's pages block automated access and the full-text PDF is too large to fetch, so what the proposal contained is unchecked.",
+    "verification": "full-text",
+    "location": "Findings (summary) and Results (the paragraph on objective one and two; counts also in the appendix table for Figure 2). Read in the published version, from the LSE repository copy. The exact wording of the proposal shown to participants, in the appendix, was not checked. Checked 2026-11-15.",
     "author": "hickel"
   },
   {
@@ -651,7 +663,7 @@
     "url": "https://www.wiley-vch.de/en/areas-interest/finance-economics-law/the-case-for-a-maximum-wage-978-1-5095-2492-1",
     "caveat": "Not a Hickel source, and not confirmed as the book he means. He names 'The Case for Maximum Income' (TEA 55:58, 58:56); searches found no book with that title. This is the closest title, and the identification is ours.",
     "verification": "secondary",
-    "location": "Publisher listing (contents, description), an excerpt of chapter 1 on Perlego, and Alan Cottey's review in Prometheus 36(1), March 2020. The full book was not read.",
+    "location": "Publisher listing (contents, description), an excerpt of chapter 1 on Perlego, and Alan Cottey's review in Prometheus 36(1), March 2020. The full book was not read. A further search on 2026-11-15 again found no book titled 'The Case for (a) Maximum Income'.",
     "author": "other"
   },
   {
