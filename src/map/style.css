@@ -87,6 +87,12 @@
 .station.ghost.in-focus:not(.lit):not(:hover) .st-label {
   opacity: 0;
 }
+/* on a phone the circles are small: slightly smaller labels fit between the boxes */
+@media (max-width: 600px) {
+  .st-label {
+    font-size: calc(var(--k) * 11px);
+  }
+}
 
 /* Global institutions carries its title inside */
 .region-title.inner-title {

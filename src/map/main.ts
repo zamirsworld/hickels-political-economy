@@ -129,6 +129,24 @@ function gateMarkup(theme: string, g: Gate) {
   const B = regionById.get(g.b)!.short
   return `<g class="gate" data-gate-go="${g.key}" transform="translate(${P(g.p)})" tabindex="0" role="button" aria-label="Highway: ${esc(A)} and ${esc(B)}"><circle class="gate-hit" r="${f1(Math.max(16, w / 2 + 4))}"/>${shape}</g>`
 }
+/** A long name goes on two lines, split where the lines come out most even (before an "&" if that is as good). */
+function labelLines(name: string): string[] {
+  if (name.length <= 30) return [name]
+  let best = [name]
+  let score = Infinity
+  for (let i = name.indexOf(' '); i > 0; i = name.indexOf(' ', i + 1)) {
+    const a = name.slice(0, i)
+    const b = name.slice(i + 1)
+    const sc = Math.max(a.length, b.length) - (b.startsWith('&') ? 2 : 0)
+    if (sc < score) [best, score] = [[a, b], sc]
+  }
+  return best
+}
+function labelMarkup(p: Pt, name: string) {
+  const lines = labelLines(name)
+  if (lines.length === 1) return `<text class="st-label" x="${f1(p.x)}" y="${f1(p.y)}" dy="0.35em">${esc(name)}</text>`
+  return `<text class="st-label" x="${f1(p.x)}" y="${f1(p.y)}"><tspan x="${f1(p.x)}" dy="-0.25em">${esc(lines[0])}</tspan><tspan x="${f1(p.x)}" dy="1.2em">${esc(lines[1])}</tspan></text>`
+}
 function glyphMarkup(theme: string, gid: string) {
   const id = glyphNode(gid)
   const p = pos(gid)
@@ -136,7 +154,7 @@ function glyphMarkup(theme: string, gid: string) {
   const shape = theme === 'orrery' ? `<circle class="st-halo" r="9"/><circle class="st-dot" r="4.8"/>` : `<circle class="st-dot" r="6.4"/>`
   return `<g class="station" data-node="${id}" data-glyph="${gid}" tabindex="0" role="button" aria-label="${esc(name)}">
     <g transform="translate(${P(p)})"><circle class="st-hit" r="12"/><circle class="st-here" r="13"/>${shape}</g>
-    <text class="st-label" x="${f1(p.x)}" y="${f1(p.y)}" dy="0.35em">${esc(name)}</text></g>`
+    ${labelMarkup(p, name)}</g>`
 }
 function leverGlyph(id: (typeof LEVER_ORDER)[number]) {
   const h = model.leverHome[id]
@@ -163,6 +181,11 @@ let svg!: SVGSVGElement
 let cam: Camera | undefined
 let particles!: Particles
 let groupFocus: string | null = null
+// the map's size can change without the window resizing (the timeline band under it, a story hiding it)
+let sized: ResizeObserver | undefined
+// the boxes of the world on show; their labels are placed first, so the hidden ones give way
+let shownBoxes = new Set<string>()
+let shownKey = ''
 const flowEls = new Map<string, SVGPathElement>()
 const glyphEls = new Map<string, SVGGElement>()
 const GLYPHS = GROUPS.flatMap((g) => g.nodes)
@@ -189,33 +212,55 @@ function cameraFor(app: App): Box {
   return fitBox(flows.flatMap(flowPts), 90, 380)
 }
 
-/** Labels below, right, above or left of each dot: the first spot clear of dots and labels already placed. */
+/**
+ * Labels below, right, above or left of each dot: the first spot clear of dots, switches and labels already
+ * placed, and inside what the camera shows of that circle. With no clear spot, the one that covers least,
+ * where covering a dot or a switch counts more than touching another label. The labels of the world on show
+ * go first; a few orders are tried and the one that leaves least covered wins.
+ */
 function layoutLabels() {
-  if (!cam || !svg.getBoundingClientRect().width) return
+  const px = svg?.getBoundingClientRect()
+  if (!cam || !px?.width || !px.height) return
   const kNow = Number(svg.style.getPropertyValue('--k')) || 1
   type B = { x0: number; y0: number; x1: number; y1: number }
+  type Placed = B & { w: number }
+  type Cand = { x: number; y: number; anchor: string; b: B }
   const hit = (a: B, b: B) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1
-  const placed: B[] = GLYPHS.map((g) => {
+  const overlap = (a: B, b: B) => Math.max(0, Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0)) * Math.max(0, Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0))
+  const fixed: Placed[] = GLYPHS.map((g) => {
     const p = pos(g)
-    return { x0: p.x - 9, y0: p.y - 9, x1: p.x + 9, y1: p.y + 9 }
+    return { x0: p.x - 9, y0: p.y - 9, x1: p.x + 9, y1: p.y + 9, w: 4 }
   })
   // the switches drawn above their boxes take room too
   for (const id of LEVER_ORDER) {
     const home = model.leverHome[id]
     if (!('node' in home)) continue
     const p = pos(home.node)
-    placed.push({ x0: p.x - 13, y0: p.y - 26, x1: p.x + 13, y1: p.y - 10 })
+    fixed.push({ x0: p.x - 13, y0: p.y - 26, x1: p.x + 13, y1: p.y - 10, w: 3 })
   }
-  for (const g of GLYPHS) {
+  // what the camera shows when a circle is in focus: its box, widened to the stage's shape, less a small margin
+  const view = new Map<Region, B>()
+  for (const r of REGIONS) {
+    const [x, y, w, h] = regionBox(r.id)
+    const k = cam.kFor([x, y, w, h])
+    const vw = px.width * k
+    const vh = px.height * k
+    const m = 6 * k
+    view.set(r.id, { x0: x + w / 2 - vw / 2 + m, y0: y + h / 2 - vh / 2 + m, x1: x + w / 2 + vw / 2 - m, y1: y + h / 2 + vh / 2 - m })
+  }
+  // each label's size at its circle's zoom, and the spots it could take, in order of preference
+  const labels = GLYPHS.flatMap((g) => {
     const el = glyphEls.get(g)?.querySelector<SVGTextElement>('.st-label')
-    if (!el) continue
-    const kZoom = cam.kFor(regionBox(regionOf.get(glyphNode(g))!))
+    if (!el) return []
+    const region = regionOf.get(glyphNode(g))!
+    const kZoom = cam!.kFor(regionBox(region))
+    const shown = view.get(region)!
     const bb = el.getBBox()
     const w = (bb.width * kZoom) / kNow + 3
-    const h = (bb.height * kZoom) / kNow
+    const h = (bb.height * kZoom) / kNow + 2
     const p = pos(g)
     const gap = 9 + 3 * kZoom
-    const cands = [
+    const cands: Cand[] = [
       { x: p.x, y: p.y + gap + h / 2, anchor: 'middle', b: { x0: p.x - w / 2, y0: p.y + gap, x1: p.x + w / 2, y1: p.y + gap + h } },
       { x: p.x + gap, y: p.y, anchor: 'start', b: { x0: p.x + gap, y0: p.y - h / 2, x1: p.x + gap + w, y1: p.y + h / 2 } },
       { x: p.x, y: p.y - gap - h / 2, anchor: 'middle', b: { x0: p.x - w / 2, y0: p.y - gap - h, x1: p.x + w / 2, y1: p.y - gap } },
@@ -228,13 +273,50 @@ function layoutLabels() {
       const y = p.y + sy * (d + h / 2)
       cands.push({ x, y, anchor: sx > 0 ? 'start' : 'end', b: { x0: sx > 0 ? x : x - w, y0: y - h / 2, x1: sx > 0 ? x + w : x, y1: y + h / 2 } })
     }
-    // a free spot if there is one; otherwise the spot that covers least of what is already placed
-    const cover = (q: B) => placed.reduce((acc, o) => acc + (hit(o, q) ? (Math.min(o.x1, q.x1) - Math.max(o.x0, q.x0)) * (Math.min(o.y1, q.y1) - Math.max(o.y0, q.y0)) : 0), 0)
-    const c = cands.find((q) => !placed.some((o) => hit(o, q.b))) ?? cands.reduce((best, q) => (cover(q.b) < cover(best.b) ? q : best))
-    placed.push(c.b)
-    el.setAttribute('x', f1(c.x))
-    el.setAttribute('y', f1(c.y))
-    el.setAttribute('text-anchor', c.anchor)
+    // and below or above, running off to one side, for long names between close neighbours
+    for (const sy of [1, -1]) {
+      const y = p.y + sy * (gap + h / 2)
+      const [y0, y1] = sy > 0 ? [p.y + gap, p.y + gap + h] : [p.y - gap - h, p.y - gap]
+      cands.push({ x: p.x - 6, y, anchor: 'start', b: { x0: p.x - 6, y0, x1: p.x - 6 + w, y1 } })
+      cands.push({ x: p.x + 6, y, anchor: 'end', b: { x0: p.x + 6 - w, y0, x1: p.x + 6, y1 } })
+    }
+    return [{ g, el, w, kZoom, shown, cands, on: shownBoxes.has(glyphNode(g)) }]
+  })
+  type L = (typeof labels)[number]
+  const inside = (l: L, q: B) => q.x0 >= l.shown.x0 && q.x1 <= l.shown.x1 && q.y0 >= l.shown.y0 && q.y1 <= l.shown.y1
+  const place = (order: L[]) => {
+    const placed = [...fixed]
+    const pick = new Map<L, Cand>()
+    let total = 0
+    for (const l of order) {
+      // a free spot on screen if there is one; otherwise the spot that covers least of what is already placed
+      const cost = (q: B) => placed.reduce((acc, o) => acc + o.w * overlap(o, q), 0) + 20 * ((q.x1 - q.x0) * (q.y1 - q.y0) - overlap(q, l.shown))
+      let c = l.cands.find((q) => inside(l, q.b) && !placed.some((o) => hit(o, q.b)))
+      if (!c) {
+        c = l.cands.reduce((best, q) => (cost(q.b) < cost(best.b) ? q : best))
+        total += cost(c.b) * (l.on ? 1 : 0.2)
+      }
+      pick.set(l, c)
+      // a little space either side, so two names on one line never read as one
+      const m = 5 * l.kZoom
+      placed.push({ x0: c.b.x0 - m, y0: c.b.y0, x1: c.b.x1 + m, y1: c.b.y1, w: 1 })
+    }
+    return { pick, total }
+  }
+  const shownFirst = (ls: L[]) => [...ls.filter((l) => l.on), ...ls.filter((l) => !l.on)]
+  const y = (l: L) => l.cands[0].b.y0
+  const orders = [labels, [...labels].reverse(), [...labels].sort((a, b) => b.w - a.w), [...labels].sort((a, b) => y(a) - y(b)), [...labels].sort((a, b) => y(b) - y(a))].map(shownFirst)
+  let best = place(orders[0])
+  for (const o of orders.slice(1)) {
+    if (best.total === 0) break
+    const next = place(o)
+    if (next.total < best.total) best = next
+  }
+  for (const [l, c] of best.pick) {
+    l.el.setAttribute('x', f1(c.x))
+    l.el.querySelectorAll('tspan').forEach((t) => t.setAttribute('x', f1(c.x)))
+    l.el.setAttribute('y', f1(c.y))
+    l.el.setAttribute('text-anchor', c.anchor)
   }
 }
 
@@ -289,7 +371,12 @@ const map: MapAdapter = {
     cam = new Camera(svg, cam ? cam.box : ALL)
     cam.scale()
     particles = new Particles(svg.querySelector('.particles')!, (id) => flowEls.get(id))
+    shownBoxes = new Set(app.view.nodes)
+    shownKey = [...shownBoxes].sort().join()
     layoutLabels()
+    sized?.disconnect()
+    sized = new ResizeObserver(() => map.resize?.(app))
+    sized.observe(svg)
   },
   update(app) {
     const em = app.emphasis()
@@ -297,6 +384,13 @@ const map: MapAdapter = {
     svg.dataset.focus = fp
     svg.dataset.mode = app.mode.kind
     const lit = litNodes(app, em)
+    // a switch flipped changes which boxes are on show, and so where their labels fit best
+    const key = [...app.view.nodes].sort().join()
+    if (key !== shownKey) {
+      shownBoxes = new Set(app.view.nodes)
+      shownKey = key
+      layoutLabels()
+    }
     for (const [id, el] of flowEls) {
       const f = flowById.get(id)!
       const near = fp !== 'outside' && (regionOf.get(f.from) === fp || regionOf.get(f.to) === fp)
